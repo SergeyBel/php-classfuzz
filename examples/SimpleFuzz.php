@@ -2,14 +2,17 @@
 
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
-use PhpClassFuzz\Generator\StringGenerator;
+use PhpClassFuzz\Generator\String\AlphaStringGenerator;
+use PhpClassFuzz\Generator\String\CharStringGenerator;
 
 class SimpleFuzz implements FuzzInterface
 {
 
     public function getGenerators()
     {
-        return [StringGenerator::class];
+        return [
+            new AlphaStringGenerator(),
+        ];
     }
 
     public function fuzz(string $gen)
