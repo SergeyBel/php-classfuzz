@@ -2,8 +2,6 @@
 
 namespace PhpClassFuzz\ClassWork;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class MethodAnalyzer
 {
     public const METHOD_NAME = 'fuzz';

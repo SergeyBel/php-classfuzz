@@ -13,7 +13,7 @@ class MbStringGenerator implements GeneratorInterface
     private ?string $encoding;
 
 
-    public function __construct(int $minLength = 0, int $maxLength = 100, ?string $encoding = null)
+    public function __construct(int $minLength = 0, int $maxLength = 25, ?string $encoding = null)
     {
         $this->minLength = $minLength;
         $this->maxLength = $maxLength;
@@ -24,10 +24,11 @@ class MbStringGenerator implements GeneratorInterface
     public function generate(): string
     {
         $str = '';
-        for ($i = $this->minLength; $i < $this->maxLength; $i++) {
+        $length = random_int($this->minLength, $this->maxLength);
+        for ($i = 0; $i < $length; $i++) {
             $char = mb_chr(random_int(0, 65535), $this->encoding);
             if ($char !== false) {
-                $str.=$char;
+                $str .= $char;
             }
         }
         return $str;

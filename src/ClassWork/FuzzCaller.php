@@ -12,6 +12,7 @@ class FuzzCaller
             $args[] = $generator->generate();
         }
 
+
         call_user_func_array([$class, MethodAnalyzer::METHOD_NAME], $args);
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
 
+use PhpClassFuzz\ExceptionCatcher\AllowedExceptionListCatcher;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Generator\String\AlphaStringGenerator;
-use PhpClassFuzz\Generator\String\CharStringGenerator;
+
+
 
 class SimpleFuzz implements FuzzInterface
 {
@@ -15,11 +17,17 @@ class SimpleFuzz implements FuzzInterface
         ];
     }
 
+    public function getExceptionCatchers()
+    {
+        return [
+            new AllowedExceptionListCatcher([Exception::class]),
+        ];
+    }
+
     public function fuzz(string $text)
     {
-
-        if (strlen($text) > 50) {
-            throw new Exception();
+        if ($text[5] != 'a') {
+            throw new Exception('min than 50');
         }
     }
 

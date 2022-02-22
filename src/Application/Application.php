@@ -16,7 +16,7 @@ class Application extends BaseApplication
         $loader->load('services.yaml');
         $containerBuilder->compile();
 
-        foreach ($containerBuilder->findTaggedServiceIds('console.command') as $command=>$definition) {
+        foreach ($containerBuilder->findTaggedServiceIds('console.command') as $command => $definition) {
             $this->add($containerBuilder->get($command));
         }
     }
