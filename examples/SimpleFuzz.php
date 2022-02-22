@@ -15,10 +15,12 @@ class SimpleFuzz implements FuzzInterface
         ];
     }
 
-    public function fuzz(string $gen)
+    public function fuzz(string $text)
     {
 
-        echo "Generated: ".$gen."\n";
+        if (strlen($text) > 50) {
+            throw new Exception();
+        }
     }
 
 }
