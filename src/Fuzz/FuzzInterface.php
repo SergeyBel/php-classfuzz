@@ -2,16 +2,11 @@
 
 namespace PhpClassFuzz\Fuzz;
 
-use PhpClassFuzz\Corpus\Corpus;
-use PhpClassFuzz\Mutator\Mutators;
+use PhpClassFuzz\Argument\Arguments;
 
 interface FuzzInterface
 {
-    public function getCorpus(): Corpus;
-
-    public function getMutators(): Mutators;
-
+    public function getArguments(): Arguments;
     public function getExceptionCatchers(): array;
-
     public function getMaxCount(): int;
 }
