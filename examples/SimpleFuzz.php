@@ -1,13 +1,17 @@
 <?php
 
+use hpez\bignum\BigInt;
 use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\Argument\Arguments;
 use PhpClassFuzz\Corpus\Corpus;
 use PhpClassFuzz\Corpus\Generator\CharStringCorpus;
+use PhpClassFuzz\Corpus\Generator\DictionaryCorpus;
 use PhpClassFuzz\Fuzz\FuzzInterface;
+use PhpClassFuzz\Mutator\Mutator\String\DuplicatePartMutator;
 use PhpClassFuzz\Mutator\Mutator\String\InsertCharMutator;
 use PhpClassFuzz\Mutator\Mutators;
 use \PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
+use phpseclib3\Math\BigInteger;
 
 
 class SimpleFuzz implements FuzzInterface
@@ -16,8 +20,12 @@ class SimpleFuzz implements FuzzInterface
     {
         $args = new Arguments();
         $args->setArgument(0, new Argument(
-            (new CharStringCorpus())->generate(100),
-            new Mutators([new InsertCharMutator()])
+            (new DictionaryCorpus())->generate(
+                10000,
+                ['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'],
+                25
+            ),
+            new Mutators([new InsertCharMutator(), new DuplicatePartMutator()])
         ));
 
         return $args;
@@ -33,17 +41,15 @@ class SimpleFuzz implements FuzzInterface
 
     public function getMaxCount(): int
     {
-        return 100;
+        return 100000;
     }
 
 
     public function fuzz(string $text)
     {
-
         dump($text);
-        if ($text[5] != 'a') {
-            throw new Exception('min than 50');
-        }
+        $parser = new Sabberworm\CSS\Parser($text);
+        $parser->parse();
     }
 
 }
