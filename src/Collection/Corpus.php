@@ -2,6 +2,8 @@
 
 namespace PhpClassFuzz\Collection;
 
+use PhpClassFuzz\Corpus\CorpusEndException;
+
 class Corpus
 {
     private array $data;

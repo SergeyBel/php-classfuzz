@@ -13,8 +13,7 @@ class CharStringCorpus implements GeneratorInterface
 
     public function __construct(
         private Random $random
-    )
-    {
+    ) {
     }
 
 

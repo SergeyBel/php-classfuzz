@@ -5,6 +5,7 @@ namespace PhpClassFuzz\Runner;
 use PhpClassFuzz\File\FuzzClassFinder;
 use PhpClassFuzz\File\FuzzFileFinder;
 use PhpClassFuzz\Fuzzer\Fuzzer;
+use PhpClassFuzz\Printer\Printer;
 
 class Runner
 {
@@ -12,6 +13,7 @@ class Runner
         private FuzzFileFinder $fuzzFileFinder,
         private FuzzClassFinder $fuzzClassFinder,
         private Fuzzer $fuzzer,
+        private Printer $printer
     ) {
     }
     public function runAllFuzz(RunnerConfiguration $configuration)
@@ -34,14 +36,8 @@ class Runner
                     return true;
                 }
 
-                echo json_encode(
-                    [
-                        'errno' => $errno,
-                        'errstr' => $errstr,
-                        'errfile' => $errfile,
-                        'errline' => $errline,
-                    ]
-                );
+                $this->printer->printPhpError($errno, $errstr, $errfile, $errline);
+
                 exit(1);
             }
         );

@@ -42,7 +42,6 @@ class SimpleFuzz implements FuzzInterface
 
     public function fuzz(string $text)
     {
-        dump($text);
         $parser = new Sabberworm\CSS\Parser($text);
         $parser->parse();
     }
