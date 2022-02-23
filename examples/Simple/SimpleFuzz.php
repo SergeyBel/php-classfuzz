@@ -37,7 +37,8 @@ class SimpleFuzz implements FuzzInterface
 
     public function fuzz(string $text)
     {
-        $parser = new Sabberworm\CSS\Parser($text);
-        $parser->parse();
+        if (strlen($text) > 100) {
+            throw new Exception();
+        }
     }
 }

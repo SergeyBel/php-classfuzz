@@ -24,7 +24,7 @@ class Runner
 
         $this->registerErrorhandler();
         foreach ($fuzzClasses as $fuzzClass) {
-            $this->fuzzer->runFuzzing($fuzzClass);
+            $this->fuzzer->runFuzzing($fuzzClass, $configuration->isDebug());
         }
     }
 

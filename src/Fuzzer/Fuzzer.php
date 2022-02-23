@@ -4,6 +4,7 @@ namespace PhpClassFuzz\Fuzzer;
 
 use PhpClassFuzz\Context\Context;
 use PhpClassFuzz\Corpus\CorpusEndException;
+use PhpClassFuzz\Debug\Debug;
 use PhpClassFuzz\ExceptionCatcher\ExceptionCatcherManager;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Printer\Printer;
@@ -14,11 +15,12 @@ class Fuzzer
     public function __construct(
         private FuzzCaller $fuzzCaller,
         private ExceptionCatcherManager $exceptionCatcherManager,
-        private Printer $printer
+        private Printer $printer,
+        private Debug $debug
     ) {
     }
 
-    public function runFuzzing(FuzzInterface $fuzzClass)
+    public function runFuzzing(FuzzInterface $fuzzClass, bool $isDebug)
     {
         Context::setFuzzClassName(get_class($fuzzClass));
         $arguments = $fuzzClass->getArguments();
@@ -37,6 +39,9 @@ class Fuzzer
                 $args[] = $mutator->mutate($corpusItem);
             }
             Context::setArgs($args);
+            if ($isDebug) {
+                $this->debug->debugPrint($args);
+            }
             try {
                 $this->fuzzCaller->runFuzzCase($fuzzClass, $args);
             } catch (Throwable $e) {
