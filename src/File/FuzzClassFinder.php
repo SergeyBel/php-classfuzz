@@ -2,6 +2,7 @@
 
 namespace PhpClassFuzz\File;
 
+use PhpClassFuzz\Fuzz\BaseFuzz;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 
 class FuzzClassFinder
@@ -18,10 +19,14 @@ class FuzzClassFinder
         $declaredClasses = get_declared_classes();
         $fuzzClasses = [];
         foreach ($declaredClasses as $class) {
+            if ($class == BaseFuzz::class) {
+                continue;
+            }
             if (in_array(FuzzInterface::class, class_implements($class))) {
                 $fuzzClasses[] = new $class();
             }
         }
+
 
         return $fuzzClasses;
     }

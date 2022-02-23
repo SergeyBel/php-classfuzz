@@ -46,7 +46,7 @@ class Fuzzer
                 $this->fuzzCaller->runFuzzCase($fuzzClass, $args);
             } catch (Throwable $e) {
                 if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
-                    $this->printer->printException($e, $fuzzClass, $args);
+                    $this->printer->printException($e);
                     return;
                 }
             }

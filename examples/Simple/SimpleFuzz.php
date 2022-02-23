@@ -5,11 +5,12 @@ use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\Argument\Arguments;
 use PhpClassFuzz\Corpus\Facade\CorpusGeneratorFacade;
 use PhpClassFuzz\Corpus\Generator\CharStringCorpus;
+use PhpClassFuzz\Fuzz\BaseFuzz;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
 use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
-class SimpleFuzz implements FuzzInterface
+class SimpleFuzz extends BaseFuzz
 {
     public function getArguments(): Arguments
     {
@@ -29,15 +30,10 @@ class SimpleFuzz implements FuzzInterface
         ];
     }
 
-    public function getMaxCount(): int
-    {
-        return 100000;
-    }
-
 
     public function fuzz(string $text)
     {
-        if (strlen($text) > 100) {
+        if (strlen($text) > 50) {
             throw new Exception();
         }
     }
