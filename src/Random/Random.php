@@ -13,4 +13,14 @@ class Random
     {
         return chr($this->getInt(0, 255));
     }
+
+    public function getFromArray(array $data, int $length): array
+    {
+        $randomValues = [];
+        for ($i = 0; $i < $length; $i++) {
+            $randomValues[] = $data[array_rand($data)];
+        }
+
+        return $randomValues;
+    }
 }

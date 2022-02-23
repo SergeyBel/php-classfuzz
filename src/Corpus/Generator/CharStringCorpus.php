@@ -2,21 +2,47 @@
 
 namespace PhpClassFuzz\Corpus\Generator;
 
-use PhpClassFuzz\Corpus\Corpus;
+use PhpClassFuzz\Collection\Corpus;
+use PhpClassFuzz\Random\Random;
 
-class CharStringCorpus
+class CharStringCorpus implements GeneratorInterface
 {
-    public function generate(int $count, int $minLength = 0, int $maxLength = 100): Corpus
+    private int $minLength;
+
+    private int $maxLength;
+
+    public function __construct(
+        private Random $random
+    )
+    {
+    }
+
+
+    public function generate(int $count): Corpus
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {
-            $length = random_int($minLength, $maxLength);
+            $length = $this->random->getInt($this->minLength, $this->maxLength);
             $str = '';
             for ($j = 0; $j < $length; $j++) {
-                $str .= chr(random_int(0, 255));
+                $str .= $this->random->getChar();
             }
             $data[] = $str;
         }
         return new Corpus($data);
+    }
+
+
+    public function setMinLength(int $minLength): self
+    {
+        $this->minLength = $minLength;
+        return $this;
+    }
+
+
+    public function setMaxLength(int $maxLength): self
+    {
+        $this->maxLength = $maxLength;
+        return $this;
     }
 }
