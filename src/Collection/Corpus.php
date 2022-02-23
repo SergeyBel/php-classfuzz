@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClassFuzz\Corpus;
+namespace PhpClassFuzz\Collection;
 
 class Corpus
 {

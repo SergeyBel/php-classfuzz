@@ -2,7 +2,7 @@
 
 namespace PhpClassFuzz\Corpus\Generator;
 
-use PhpClassFuzz\Corpus\Corpus;
+use PhpClassFuzz\Collection\Corpus;
 
 class DictionaryCorpus
 {

@@ -2,8 +2,10 @@
 
 namespace PhpClassFuzz\Argument;
 
-use PhpClassFuzz\Collections\Mutators;
-use PhpClassFuzz\Corpus\Corpus;
+use PhpClassFuzz\Collection\Corpus;
+use PhpClassFuzz\Collection\Mutators;
+
+;
 
 class Argument
 {

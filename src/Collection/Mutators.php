@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClassFuzz\Collections;
+namespace PhpClassFuzz\Collection;
 
 use PhpClassFuzz\Mutator\MutatorInterface;
 
