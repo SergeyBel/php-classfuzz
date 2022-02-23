@@ -9,11 +9,15 @@ services:
 
   PhpClassFuzz\:
     resource: '../*'
-    exclude: '../{Config,Application,Generator,ExceptionCatcher/Catcher,Corpus,Mutator,Argument}/*'
+    exclude: '../{Config,Application,Generator,ExceptionCatcher/Catcher,Corpus,Collections,Argument}/*'
 
   PhpClassFuzz\Command\:
     resource: '../Command/*'
     tags: [ 'console.command' ]
+
+  PhpClassFuzz\Mutator\Type\String\:
+    resource: '../Mutator/Type/String/*'
+    tags: [ 'fuzz.mutator.string' ]
 
   Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
 

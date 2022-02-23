@@ -5,11 +5,8 @@ use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\Argument\Arguments;
 use PhpClassFuzz\Corpus\Generator\DictionaryCorpus;
 use PhpClassFuzz\Fuzz\FuzzInterface;
-use PhpClassFuzz\Mutator\Mutator\String\DuplicatePartMutator;
-use PhpClassFuzz\Mutator\Mutator\String\InsertCharMutator;
-use PhpClassFuzz\Mutator\Mutators;
 use \PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
-
+use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
 
 class SimpleFuzz implements FuzzInterface
@@ -23,7 +20,7 @@ class SimpleFuzz implements FuzzInterface
                 ['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'],
                 25
             ),
-            new Mutators([new InsertCharMutator(), new DuplicatePartMutator()])
+            StringMutatorFacade::getAllMutators(),
         ));
 
         return $args;
