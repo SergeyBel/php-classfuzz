@@ -1,0 +1,23 @@
+
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Code style
+        run: |
+          ./vendor/bin/php-cs-fixer fix --dry-run
+
+      - name: Tests
+        run: |
+          ./vendor/bin/phpunit tests
+
+    
