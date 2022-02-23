@@ -1,14 +1,15 @@
 <?php
 
-namespace PhpClassFuzz\ClassWork;
+namespace PhpClassFuzz\ExceptionCatcher;
 
+use PhpClassFuzz\Fuzz\FuzzInterface;
 use Throwable;
 
 class ExceptionCatcherManager
 {
-    public function canIgnoreException(string $className, Throwable $throwable): bool
+    public function canIgnoreException(FuzzInterface $fuzzClass, Throwable $throwable): bool
     {
-        $catchers = (new $className())->getExceptionCatchers();
+        $catchers = $fuzzClass->getExceptionCatchers();
         foreach ($catchers as $cather) {
             if (!$cather->canIgnoreException($throwable)) {
                 return false;

@@ -2,21 +2,16 @@
 
 namespace PhpClassFuzz\Runner;
 
-use PhpClassFuzz\ClassWork\ExceptionCatcherManager;
-use PhpClassFuzz\ClassWork\FuzzCaller;
-use PhpClassFuzz\ClassWork\FuzzClassFinder;
-use PhpClassFuzz\ClassWork\MethodAnalyzer;
+use PhpClassFuzz\File\FuzzClassFinder;
 use PhpClassFuzz\File\FuzzFileFinder;
-use Throwable;
+use PhpClassFuzz\Fuzzer\Fuzzer;
 
 class Runner
 {
     public function __construct(
         private FuzzFileFinder $fuzzFileFinder,
         private FuzzClassFinder $fuzzClassFinder,
-        private MethodAnalyzer $methodAnalyzer,
-        private ExceptionCatcherManager $exceptionCatcherManager,
-        private FuzzCaller $fuzzCaller
+        private Fuzzer $fuzzer,
     ) {
     }
     public function runAllFuzz(RunnerConfiguration $configuration)
@@ -27,18 +22,7 @@ class Runner
 
         $this->registerErrorhandler();
         foreach ($fuzzClasses as $fuzzClass) {
-            $argsGenerators = $this->methodAnalyzer->analyze($fuzzClass);
-
-            for ($runCount = 0; $runCount < $configuration->getRunCount(); $runCount++) {
-                try {
-                    $this->fuzzCaller->runFuzzCase($fuzzClass, $argsGenerators);
-                } catch (Throwable $e) {
-                    if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
-                        echo json_encode(['message' => 'exception error: '.$e->getMessage()]);
-                        break;
-                    }
-                }
-            }
+            $this->fuzzer->runFuzzing($fuzzClass);
         }
     }
 

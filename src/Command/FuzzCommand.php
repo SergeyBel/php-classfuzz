@@ -23,15 +23,11 @@ class FuzzCommand extends Command
     protected function configure(): void
     {
         $this->addOption('dir', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('count', null, InputOption::VALUE_OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = (new RunnerConfiguration())->setDirectory($input->getOption('dir'));
-        if ($input->getOption('count')) {
-            $config->setRunCount($input->getOption('count'));
-        }
         $this->runner->runAllFuzz($config);
         return Command::SUCCESS;
     }

@@ -9,7 +9,7 @@ services:
 
   PhpClassFuzz\:
     resource: '../*'
-    exclude: '../{Config,Application,Generator,ExceptionCatcher}/*'
+    exclude: '../{Config,Application,Generator,ExceptionCatcher/Catcher,Corpus,Mutator}/*'
 
   PhpClassFuzz\Command\:
     resource: '../Command/*'

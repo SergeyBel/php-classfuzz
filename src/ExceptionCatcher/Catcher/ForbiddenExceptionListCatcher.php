@@ -1,6 +1,8 @@
 <?php
 
-namespace PhpClassFuzz\ExceptionCatcher;
+namespace PhpClassFuzz\ExceptionCatcher\Catcher;
+
+use PhpClassFuzz\ExceptionCatcher\ExceptionCatcherInterface;
 
 class ForbiddenExceptionListCatcher implements ExceptionCatcherInterface
 {
