@@ -1,10 +1,16 @@
 #!/usr/bin/env php
 <?php
-// app.php
+
+
+
+foreach ([__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'] as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
 
 use PhpClassFuzz\Application\Application;
-
-require __DIR__.'/autoload.php';
 
 $app = new Application();
 $app->registerCommands();
