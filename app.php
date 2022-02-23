@@ -4,7 +4,7 @@
 
 use PhpClassFuzz\Application\Application;
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/autoload.php';
 
 $app = new Application();
 $app->registerCommands();
