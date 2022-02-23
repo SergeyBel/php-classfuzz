@@ -1,4 +1,12 @@
 {
+	"name": "sergey-bel/php-classfuzz",
+	"description": "Fuzzer for php classes",
+	"authors": [
+		{
+			"name": "Sergey Belov"
+		}
+	],
+
 	"autoload": {
         "psr-4": {
 		"PhpClassFuzz\\": "./src",
