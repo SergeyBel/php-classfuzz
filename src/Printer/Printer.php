@@ -19,7 +19,7 @@ class Printer
         ];
 
         echo $message."\n";
-        echo json_encode($data, JSON_PRETTY_PRINT)."\n";
+        echo print_r($data, 1)."\n";
     }
 
     public function printException(Throwable $e)
@@ -31,6 +31,6 @@ class Printer
             'arguments' => implode(', ', Context::getArgs()),
         ];
         echo $message."\n";
-        echo json_encode($data, JSON_PRETTY_PRINT)."\n";
+        echo print_r($data, 1)."\n";
     }
 }

@@ -32,7 +32,7 @@ class SimpleFuzz extends BaseFuzz
 
     public function fuzz(string $text)
     {
-        if (strlen($text) > 50) {
+        if (strlen($text) > 15) {
             throw new Exception();
         }
     }

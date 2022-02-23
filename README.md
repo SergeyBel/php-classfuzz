@@ -23,7 +23,7 @@ To get started fuzzing a class you need to create Fuzz-class:
 * `getArguments()` method must be implemented in the class
 
 
-Example:
+Example (class file in 'fuzzing' directory):
 ```php
 class SimpleFuzz extends BaseFuzz
 {
@@ -74,7 +74,7 @@ class SimpleFuzz extends BaseFuzz
 }
 ```
 
-then run command ``
+then run command `vendor/bin/php-classfuzz fuzzing --dir=fuzzing`
 
 # Main concepts
 
