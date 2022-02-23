@@ -8,7 +8,6 @@ class BaseFuzz implements FuzzInterface
 {
     public function getArguments(): Arguments
     {
-
     }
 
     public function getExceptionCatchers(): array

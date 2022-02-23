@@ -6,7 +6,6 @@ use PhpClassFuzz\Argument\Arguments;
 use PhpClassFuzz\Corpus\Facade\CorpusGeneratorFacade;
 use PhpClassFuzz\Corpus\Generator\CharStringCorpus;
 use PhpClassFuzz\Fuzz\BaseFuzz;
-use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
 use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
