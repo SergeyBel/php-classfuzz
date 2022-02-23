@@ -4,11 +4,10 @@
 use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\Argument\Arguments;
 use PhpClassFuzz\Corpus\Facade\CorpusGeneratorFacade;
-use PhpClassFuzz\Corpus\Generator\DictionaryCorpus;
+use PhpClassFuzz\Corpus\Generator\CharStringCorpus;
 use PhpClassFuzz\Fuzz\FuzzInterface;
-use \PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
+use PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
 use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
-
 
 class SimpleFuzz implements FuzzInterface
 {
@@ -16,15 +15,11 @@ class SimpleFuzz implements FuzzInterface
     {
         $args = new Arguments();
         $args->setArgument(0, new Argument(
-            CorpusGeneratorFacade::getGenerator(DictionaryCorpus::class)
-                ->setDictionary(['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'])
-                ->setMaxLen(25)
-                ->generate(10000),
+            CorpusGeneratorFacade::getGenerator(CharStringCorpus::class)->generate(100),
             StringMutatorFacade::getAllMutators(),
         ));
 
         return $args;
-
     }
 
     public function getExceptionCatchers(): array
@@ -45,5 +40,4 @@ class SimpleFuzz implements FuzzInterface
         $parser = new Sabberworm\CSS\Parser($text);
         $parser->parse();
     }
-
 }

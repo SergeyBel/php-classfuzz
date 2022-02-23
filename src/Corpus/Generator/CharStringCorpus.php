@@ -7,9 +7,9 @@ use PhpClassFuzz\Random\Random;
 
 class CharStringCorpus implements GeneratorInterface
 {
-    private int $minLength;
+    private int $minLength = 0;
 
-    private int $maxLength;
+    private int $maxLength = 25;
 
     public function __construct(
         private Random $random

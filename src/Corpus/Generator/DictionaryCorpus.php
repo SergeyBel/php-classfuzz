@@ -8,7 +8,7 @@ use PhpClassFuzz\Random\Random;
 class DictionaryCorpus implements GeneratorInterface
 {
     private array $dictionary;
-    private ?int $maxLen;
+    private ?int $maxLen = null;
 
     public function __construct(
         private Random $random
