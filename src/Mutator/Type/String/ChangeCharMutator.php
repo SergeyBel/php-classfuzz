@@ -21,5 +21,4 @@ class ChangeCharMutator implements MutatorInterface
         $position = $this->random->getInt(0, strlen($data) - 1);
         return substr_replace($data, $char, $position, 1);
     }
-
 }
