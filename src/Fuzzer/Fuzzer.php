@@ -43,7 +43,10 @@ class Fuzzer
                 $this->debug->debugPrint($args);
             }
             try {
-                $this->fuzzCaller->runFuzzCase($fuzzClass, $args);
+                $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $args);
+                if (!$this->checkPostConditions($fuzzClass->getPostConditions(), $callResult)) {
+                    return;
+                }
             } catch (Throwable $e) {
                 if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
                     $this->printer->printException($e);
@@ -52,5 +55,17 @@ class Fuzzer
             }
             $runCount++;
         }
+    }
+
+    private function checkPostConditions(array $postConditions, $callResult): bool
+    {
+        foreach ($postConditions as $postCondition) {
+            if (!$postCondition->checkPostCondition($callResult)) {
+                $this->printer->printPostCondition($postCondition, $callResult);
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -3,6 +3,7 @@
 namespace PhpClassFuzz\Printer;
 
 use PhpClassFuzz\Context\Context;
+use PhpClassFuzz\PostCondition\PostConditionInterface;
 use Throwable;
 
 class Printer
@@ -29,6 +30,18 @@ class Printer
             'exception' => get_class($e),
             'message' => $e->getMessage(),
             'arguments' => implode(', ', Context::getArgs()),
+        ];
+        echo $message."\n";
+        echo print_r($data, 1)."\n";
+    }
+
+    public function printPostCondition(PostConditionInterface $postCondition, $callResult)
+    {
+        $message = 'Post condition violated when '.Context::getFuzzClassName().' fuzzed';
+        $data = [
+            'post_condition' => get_class($postCondition),
+            'arguments' => implode(', ', Context::getArgs()),
+            'result' => print_r($callResult, 2)
         ];
         echo $message."\n";
         echo print_r($data, 1)."\n";

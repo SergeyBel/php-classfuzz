@@ -12,10 +12,16 @@ class BaseFuzz implements FuzzInterface
 
     public function getExceptionCatchers(): array
     {
+        return [];
     }
 
     public function getMaxCount(): int
     {
         return 1000;
+    }
+
+    public function getPostConditions(): array
+    {
+        return [];
     }
 }

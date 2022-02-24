@@ -29,6 +29,13 @@ class SimpleFuzz extends BaseFuzz
         ];
     }
 
+    public function getPostConditions(): array
+    {
+        return [
+
+        ];
+    }
+
 
     public function fuzz(string $text)
     {

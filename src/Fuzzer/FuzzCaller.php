@@ -6,8 +6,8 @@ class FuzzCaller
 {
     public const METHOD_NAME = 'fuzz';
 
-    public function runFuzzCase($fuzzClass, array $args)
+    public function runFuzzCase($fuzzClass, array $args): mixed
     {
-        call_user_func_array([$fuzzClass, self::METHOD_NAME], $args);
+        return call_user_func_array([$fuzzClass, self::METHOD_NAME], $args);
     }
 }
