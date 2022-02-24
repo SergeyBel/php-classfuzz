@@ -79,15 +79,18 @@ then run command `vendor/bin/php-classfuzz fuzzing --dir=fuzzing`
 # Main concepts
 
 ## Corpus
-Corpus is a set of initial data for fuzzing. This data will then be mutated to get fuzzing inputs. To simplify the creation of Corpus for common cases some special generators are implemented. Generator classes must implement `GeneratorInterface`
+Corpus is a set of initial data for fuzzing. This data will then be mutated to get fuzzing inputs. To simplify the creation of Corpus for common cases some special generators are implemented  
+Generator classes must implement `GeneratorInterface`
 
 
 ## Mutators
-Data from corpus are mutated by Mutators classes. Mutators are applied to data from Corpus. Mutator classes must implement `MutatorInterface`
+Data from corpus are mutated by Mutators classes  
+Mutator classes must implement `MutatorInterface`
 
 ## ExceptionCatchers
-Exceptions catchers are used to analyze thrown exceptions. Some exceptions may be the expected result when calling class methods on corpus data, and some may not. Exceptions catchers are needed to manage this.
+Exceptions catchers are used to analyze thrown exceptions. Some exceptions may be the expected result when calling class methods on corpus data, and some may not. Exceptions catchers are needed to manage this  
 ExceptionCatcher classes must implement `ExceptionCatcherInterface`
 
 ## PostConditions
-Post are used to check the result of a `fuzz` method call. If some conditions need to be met for the results of the `fuzz` they can be checked in PostCondition classes. PostCondition classes must implement `PostConditionInterface`
+Post conditions are used to check the result of a `fuzz` method call. If some conditions need to be met for the results of the `fuzz` method they can be checked in PostCondition classes  
+PostCondition classes must implement `PostConditionInterface`
