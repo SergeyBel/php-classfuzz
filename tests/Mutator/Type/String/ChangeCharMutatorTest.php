@@ -24,7 +24,7 @@ class ChangeCharMutatorTest extends TestCase
 
         $randomMock = $this->createMock(Random::class);
         $randomMock
-            ->method('getChar')
+            ->method('getSymbol')
             ->with()
             ->willReturn('a');
 
