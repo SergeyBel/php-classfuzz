@@ -20,7 +20,7 @@ class CssParserFuzz extends BaseFuzz
             StringMutatorFacade::getAllMutators(),
         );
 
-        return $argument
+        return $argument;
     }
 
     public function getExceptionCatchers(): array

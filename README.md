@@ -58,7 +58,7 @@ class SimpleFuzz extends BaseFuzz
     // set maximum count of `fuzz` method call
     public function getMaxCount(): int
     {
-        return 100000;
+        return 1000;
     }
 
     // main method in fuzzing process

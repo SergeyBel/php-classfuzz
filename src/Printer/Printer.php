@@ -29,7 +29,8 @@ class Printer
         $data = [
             'exception' => get_class($e),
             'message' => $e->getMessage(),
-            'arguments' => Context::getInput()
+            'arguments' => Context::getInput(),
+            'trace' => $e->getTraceAsString(),
         ];
         echo $message."\n";
         echo print_r($data, 1)."\n";
@@ -41,7 +42,8 @@ class Printer
         $data = [
             'post_condition' => get_class($postCondition),
             'arguments' => implode(', ', Context::getArgs()),
-            'result' => print_r($callResult, 2)
+            'result' => print_r($callResult, 2),
+            'trace' => (new \Exception())->getTraceAsString(),
         ];
         echo $message."\n";
         echo print_r($data, 1)."\n";
