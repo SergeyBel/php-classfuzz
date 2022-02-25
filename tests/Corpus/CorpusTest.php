@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpClassFuzz\Tests\Corpus;
 
 use PhpClassFuzz\Collection\Corpus;
@@ -11,5 +12,4 @@ class CorpusTest extends TestCase
         $corpus = new Corpus([1234]);
         $this->assertSame(1234, $corpus->getNextCorpusItem());
     }
-
 }

@@ -4,5 +4,5 @@ namespace PhpClassFuzz\Mutator;
 
 interface MutatorInterface
 {
-    public function mutate($data);
+    public function mutate($input);
 }

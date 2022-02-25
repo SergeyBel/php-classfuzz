@@ -12,13 +12,13 @@ class InsertCharMutator implements MutatorInterface
     ) {
     }
 
-    public function mutate($data)
+    public function mutate($input)
     {
-        if (strlen($data) < 1) {
-            return $data;
-        }
         $char = $this->random->getChar();
-        $position = $this->random->getInt(0, strlen($data) - 1);
-        return substr_replace($data, $char, $position, 0);
+        if (strlen($input) == 0) {
+            return $char;
+        }
+        $position = $this->random->getInt(0, strlen($input));
+        return substr_replace($input, $char, $position, 0);
     }
 }
