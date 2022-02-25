@@ -17,7 +17,7 @@ class ChangeCharMutator implements MutatorInterface
         if (strlen($input) == 0) {
             return $input;
         }
-        $char = $this->random->getChar();
+        $char = $this->random->getSymbol();
         $position = $this->random->getInt(0, strlen($input) - 1);
         return substr_replace($input, $char, $position, 1);
     }

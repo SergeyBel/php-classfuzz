@@ -9,9 +9,11 @@ class Random
         return random_int($max, $min);
     }
 
-    public function getChar(): string
+    public function getSymbol(): string
     {
-        return chr($this->getInt(0, 255));
+        $characters = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+        $position  = $this->getInt(0, strlen($characters) - 1);
+        return $characters[$position];
     }
 
     public function getFromArray(array $data, int $length): array

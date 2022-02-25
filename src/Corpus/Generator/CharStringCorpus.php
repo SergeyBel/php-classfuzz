@@ -24,7 +24,7 @@ class CharStringCorpus implements GeneratorInterface
             $length = $this->random->getInt($this->minLength, $this->maxLength);
             $str = '';
             for ($j = 0; $j < $length; $j++) {
-                $str .= $this->random->getChar();
+                $str .= $this->random->getSymbol();
             }
             $data[] = $str;
         }
