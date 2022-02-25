@@ -32,7 +32,8 @@ class Fuzzer
                 try {
                     $corpusItem = $argument->getCorpus()->getNextCorpusItem();
                 } catch (CorpusEndException) {
-                    return;
+                    echo "Corpus ended\n";
+                    break 2;
                 }
 
                 $mutator = $argument->getMutators()->getNextMutator();
@@ -55,6 +56,8 @@ class Fuzzer
             }
             $runCount++;
         }
+
+        echo "Fuzzing finished $runCount inputs\n";
     }
 
     private function checkPostConditions(array $postConditions, $callResult): bool

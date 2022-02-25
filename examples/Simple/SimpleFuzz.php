@@ -36,6 +36,11 @@ class SimpleFuzz extends BaseFuzz
         ];
     }
 
+    public function getMaxCount(): int
+    {
+        return 5000;
+    }
+
 
     public function fuzz(string $text)
     {
