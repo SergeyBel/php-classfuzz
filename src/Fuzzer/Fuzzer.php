@@ -23,38 +23,38 @@ class Fuzzer
     public function runFuzzing(FuzzInterface $fuzzClass, bool $isDebug)
     {
         Context::setFuzzClassName(get_class($fuzzClass));
-        $arguments = $fuzzClass->getArguments();
+        $argument = $fuzzClass->getArgument();
         $maxCount = $fuzzClass->getMaxCount();
         $runCount = 0;
         while ($runCount < $maxCount) {
-            $args = [];
-            foreach ($arguments->getArguments() as $argument) {
-                try {
-                    $corpusItem = $argument->getCorpus()->getNextCorpusItem();
-                } catch (CorpusEndException) {
-                    echo "Corpus ended\n";
-                    break 2;
-                }
-
-                $mutator = $argument->getMutators()->getNextMutator();
-                $args[] = $mutator->mutate($corpusItem);
-            }
-            Context::setArgs($args);
-            if ($isDebug) {
-                $this->debug->debugPrint($args);
-            }
             try {
-                $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $args);
-                if (!$this->checkPostConditions($fuzzClass->getPostConditions(), $callResult)) {
-                    return;
+                $corpusItem = $argument->getCorpus()->getNextCorpusItem();
+
+                foreach ($argument->getMutators() as $mutator) {
+                    $input = $mutator->mutate($corpusItem);
+
+                    Context::setInput($input);
+                    if ($isDebug) {
+                        $this->debug->debugPrint($input);
+                    }
+                    try {
+                        $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $input);
+                        if (!$this->checkPostConditions($fuzzClass->getPostConditions(), $callResult)) {
+                            return;
+                        }
+                    } catch (Throwable $e) {
+                        if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
+                            $this->printer->printException($e);
+                            return;
+                        }
+                    }
+
+                    $runCount++;
                 }
-            } catch (Throwable $e) {
-                if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
-                    $this->printer->printException($e);
-                    return;
-                }
+            } catch (CorpusEndException) {
+                echo "Corpus ended\n";
+                break ;
             }
-            $runCount++;
         }
 
         echo "Fuzzing finished $runCount inputs\n";

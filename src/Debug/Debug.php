@@ -4,8 +4,8 @@ namespace PhpClassFuzz\Debug;
 
 class Debug
 {
-    public function debugPrint($data)
+    public function debugPrint($input)
     {
-        echo print_r($data, 1)."\n";
+        echo print_r($input, 1)."\n";
     }
 }

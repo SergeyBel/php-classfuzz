@@ -16,7 +16,7 @@ class Printer
             'message' => $errstr,
             'file' => $errfile,
             'line' => $errline,
-            'arguments' => implode(', ', Context::getArgs()),
+            'arguments' => Context::getInput()
         ];
 
         echo $message."\n";
@@ -29,7 +29,7 @@ class Printer
         $data = [
             'exception' => get_class($e),
             'message' => $e->getMessage(),
-            'arguments' => implode(', ', Context::getArgs()),
+            'arguments' => Context::getInput()
         ];
         echo $message."\n";
         echo print_r($data, 1)."\n";

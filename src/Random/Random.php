@@ -12,7 +12,7 @@ class Random
     public function getSymbol(): string
     {
         $characters = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
-        $position  = $this->getInt(0, strlen($characters) - 1);
+        $position = $this->getInt(0, strlen($characters) - 1);
         return $characters[$position];
     }
 

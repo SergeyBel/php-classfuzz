@@ -2,11 +2,11 @@
 
 namespace PhpClassFuzz\Fuzz;
 
-use PhpClassFuzz\Argument\Arguments;
+use PhpClassFuzz\Argument\Argument;
 
 class BaseFuzz implements FuzzInterface
 {
-    public function getArguments(): Arguments
+    public function getArgument(): Argument
     {
     }
 

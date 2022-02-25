@@ -2,13 +2,13 @@
 
 namespace PhpClassFuzz\Fuzz;
 
-use PhpClassFuzz\Argument\Arguments;
+use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\ExceptionCatcher\ExceptionCatcherInterface;
 use PhpClassFuzz\PostCondition\PostConditionInterface;
 
 interface FuzzInterface
 {
-    public function getArguments(): Arguments;
+    public function getArgument(): Argument;
 
     /**
      * @return array<ExceptionCatcherInterface>

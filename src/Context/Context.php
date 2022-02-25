@@ -4,21 +4,21 @@ namespace PhpClassFuzz\Context;
 
 class Context
 {
-    private static array $args;
+    private static $input;
+
     private static string $fuzzClassName;
 
 
-    public static function getArgs(): array
+    public static function getInput()
     {
-        return self::$args;
+        return self::$input;
     }
 
 
-    public static function setArgs(array $args)
+    public static function setInput($input)
     {
-        self::$args = $args;
+        self::$input = $input;
     }
-
 
     public static function getFuzzClassName(): string
     {

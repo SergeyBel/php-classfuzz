@@ -3,17 +3,16 @@
 namespace PhpClassFuzz\Argument;
 
 use PhpClassFuzz\Collection\Corpus;
-use PhpClassFuzz\Collection\Mutators;
 
 ;
 
 class Argument
 {
     private Corpus $corpus;
-    private Mutators $mutators;
+    private array $mutators;
 
 
-    public function __construct(Corpus $corpus, Mutators $mutators)
+    public function __construct(Corpus $corpus, array $mutators)
     {
         $this->corpus = $corpus;
         $this->mutators = $mutators;
@@ -26,7 +25,7 @@ class Argument
     }
 
 
-    public function getMutators(): Mutators
+    public function getMutators(): array
     {
         return $this->mutators;
     }
