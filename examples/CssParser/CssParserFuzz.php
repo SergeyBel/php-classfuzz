@@ -10,13 +10,13 @@ use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
 class CssParserFuzz extends BaseFuzz
 {
-    public function getArguments(): Argument
+    public function getArgument(): Argument
     {
         $argument = new Argument(
             CorpusGeneratorFacade::getGenerator(DictionaryCorpus::class)
                 ->setDictionary(['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'])
                 ->setMaxLen(25)
-                ->generate(10000),
+                ->generate(100),
             StringMutatorFacade::getAllMutators(),
         );
 
@@ -32,7 +32,7 @@ class CssParserFuzz extends BaseFuzz
 
     public function getMaxCount(): int
     {
-        return 100000;
+        return 100;
     }
 
 

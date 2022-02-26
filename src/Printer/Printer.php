@@ -53,7 +53,7 @@ class Printer
 
     public function printFinished(FuzzingFinishedResult $result)
     {
-        echo 'Fuzzing finished'. $result->getRunCount(). "inputs checked\n";
+        echo 'Fuzzing finished: '. $result->getRunCount(). " inputs checked\n";
     }
 
     private function getTrace(): string
