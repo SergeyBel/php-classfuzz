@@ -3,8 +3,9 @@
 namespace PhpClassFuzz\Printer;
 
 use PhpClassFuzz\Context\Context;
-use PhpClassFuzz\PostCondition\PostConditionInterface;
-use Throwable;
+use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
 use Exception;
 
 class Printer
@@ -24,29 +25,39 @@ class Printer
         echo print_r($data, 1)."\n";
     }
 
-    public function printException(Throwable $e)
+    public function printException(FuzzingExceptionResult $result)
     {
-        $message = 'Exception catch when '.Context::getFuzzClassName().' fuzzed';
+        $message = 'Exception catch when '.$result->getFuzzClassName().' fuzzed';
         $data = [
-            'exception' => get_class($e),
-            'message' => $e->getMessage(),
-            'arguments' => Context::getInput(),
-            'trace' => $e->getTraceAsString(),
+            'exception' => $result->getExceptionClass(),
+            'message' => $result->getMessage(),
+            'arguments' => $result->getInput(),
+            'trace' => $this->getTrace(),
         ];
         echo $message."\n";
         echo print_r($data, 1)."\n";
     }
 
-    public function printPostCondition(PostConditionInterface $postCondition, $callResult)
+    public function printPostCondition(FuzzingPostConditionViolationResult $result)
     {
-        $message = 'Post condition violated when '.Context::getFuzzClassName().' fuzzed';
+        $message = 'Post condition violated when '.$result->getFuzzClassName().' fuzzed';
         $data = [
-            'post_condition' => get_class($postCondition),
-            'arguments' => implode(', ', Context::getInput()),
-            'result' => print_r($callResult, 2),
-            'trace' => (new Exception())->getTraceAsString(),
+            'post_condition' => $result->getPostConditionClassName(),
+            'arguments' => $result->getInput(),
+            'call_result' => $result->getCallResult(),
+            'trace' => $this->getTrace(),
         ];
         echo $message."\n";
         echo print_r($data, 1)."\n";
+    }
+
+    public function printFinished(FuzzingFinishedResult $result)
+    {
+        echo 'Fuzzing finished'. $result->getRunCount(). "inputs checked\n";
+    }
+
+    private function getTrace(): string
+    {
+        return (new Exception())->getTraceAsString();
     }
 }

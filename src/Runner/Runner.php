@@ -2,10 +2,15 @@
 
 namespace PhpClassFuzz\Runner;
 
+use PhpClassFuzz\Exception\PhpErrorException;
 use PhpClassFuzz\File\FuzzClassFinder;
 use PhpClassFuzz\File\FuzzFileFinder;
+use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
 use PhpClassFuzz\Fuzzer\Fuzzer;
 use PhpClassFuzz\Printer\Printer;
+use Exception;
 
 class Runner
 {
@@ -24,7 +29,23 @@ class Runner
 
         $this->registerErrorhandler();
         foreach ($fuzzClasses as $fuzzClass) {
-            $this->fuzzer->runFuzzing($fuzzClass, $configuration->isDebug());
+            $fuzzingResult = $this->fuzzer->runFuzzing($fuzzClass, $configuration->isDebug());
+            switch (get_class($fuzzingResult)) {
+                case FuzzingFinishedResult::class:
+                    $this->printer->printFinished($fuzzingResult);
+                    break;
+
+                case FuzzingExceptionResult::class:
+                    $this->printer->printException($fuzzingResult);
+                    break;
+
+                case FuzzingPostConditionViolationResult::class:
+                    $this->printer->printPostCondition($fuzzingResult);
+                    break;
+
+                default:
+                    throw new Exception('Unknown fuzzing result '. get_class($fuzzingResult));
+            }
         }
     }
 
@@ -36,9 +57,7 @@ class Runner
                     return true;
                 }
 
-                $this->printer->printPhpError($errno, $errstr, $errfile, $errline);
-
-                exit(1);
+                throw new PhpErrorException($errno, $errstr, $errfile, $errline);
             }
         );
     }

@@ -7,7 +7,11 @@ use PhpClassFuzz\Corpus\CorpusEndException;
 use PhpClassFuzz\Debug\Debug;
 use PhpClassFuzz\ExceptionCatcher\ExceptionCatcherManager;
 use PhpClassFuzz\Fuzz\FuzzInterface;
-use PhpClassFuzz\Printer\Printer;
+use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
+use PhpClassFuzz\Fuzz\Result\FuzzingResultInterface;
+use PhpClassFuzz\PostCondition\PostConditionInterface;
 use Throwable;
 
 class Fuzzer
@@ -15,12 +19,11 @@ class Fuzzer
     public function __construct(
         private FuzzCaller $fuzzCaller,
         private ExceptionCatcherManager $exceptionCatcherManager,
-        private Printer $printer,
         private Debug $debug
     ) {
     }
 
-    public function runFuzzing(FuzzInterface $fuzzClass, bool $isDebug)
+    public function runFuzzing(FuzzInterface $fuzzClass, bool $isDebug): FuzzingResultInterface
     {
         Context::setFuzzClassName(get_class($fuzzClass));
         $argument = $fuzzClass->getArgument();
@@ -39,33 +42,30 @@ class Fuzzer
                     }
                     try {
                         $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $input);
-                        if (!$this->checkPostConditions($fuzzClass->getPostConditions(), $callResult)) {
-                            return;
+                        if (($violatedPostCondition = $this->checkPostConditions($fuzzClass->getPostConditions(), $callResult)) !== true) {
+                            return new FuzzingPostConditionViolationResult($fuzzClass, $violatedPostCondition, $input, $callResult);
                         }
                     } catch (Throwable $e) {
                         if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
-                            $this->printer->printException($e);
-                            return;
+                            return new FuzzingExceptionResult($fuzzClass, $e, $input);
                         }
                     }
 
                     $runCount++;
                 }
             } catch (CorpusEndException) {
-                echo "Corpus ended\n";
                 break ;
             }
         }
 
-        echo "Fuzzing finished $runCount inputs\n";
+        return new FuzzingFinishedResult($fuzzClass, $runCount);
     }
 
-    private function checkPostConditions(array $postConditions, $callResult): bool
+    private function checkPostConditions(array $postConditions, $callResult): bool|PostConditionInterface
     {
         foreach ($postConditions as $postCondition) {
             if (!$postCondition->checkPostCondition($callResult)) {
-                $this->printer->printPostCondition($postCondition, $callResult);
-                return false;
+                return $postCondition;
             }
         }
 
