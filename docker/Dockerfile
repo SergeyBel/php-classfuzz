@@ -9,7 +9,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     apt-get update && apt-get install -qqy \
 	  php8.0-cli \
 	  php8.0-fpm \
-	  php8.0-mbstring
+	  php8.0-mbstring \
+      php8.0-xdebug
+
+ADD $PWD/php/ /etc/php
 
 WORKDIR /app
 
