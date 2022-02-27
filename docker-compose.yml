@@ -1,0 +1,10 @@
+version: '3'
+services:
+  php-classfuzz:
+    build: "./docker"
+    container_name: php-classfuzz
+    volumes:
+      - ./:/app:rw
+    stdin_open: true
+    tty: true
+    working_dir: /app
