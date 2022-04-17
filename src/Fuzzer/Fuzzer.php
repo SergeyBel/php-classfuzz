@@ -5,13 +5,14 @@ namespace PhpClassFuzz\Fuzzer;
 use PhpClassFuzz\Context\Context;
 use PhpClassFuzz\Corpus\CorpusEndException;
 use PhpClassFuzz\Debug\Debug;
-use PhpClassFuzz\ExceptionCatcher\ExceptionCatcherManager;
+
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingResultInterface;
 use PhpClassFuzz\PostCondition\PostConditionInterface;
+use PhpClassFuzz\ThrowableCatcher\ExceptionCatcherManager;
 use Throwable;
 
 class Fuzzer
@@ -46,7 +47,7 @@ class Fuzzer
                             return new FuzzingPostConditionViolationResult($fuzzClass, $violatedPostCondition, $input, $callResult);
                         }
                     } catch (Throwable $e) {
-                        if (!$this->exceptionCatcherManager->canIgnoreException($fuzzClass, $e)) {
+                        if (!$this->exceptionCatcherManager->canIgnoreThrowable($fuzzClass, $e)) {
                             return new FuzzingExceptionResult($fuzzClass, $e, $input);
                         }
                     }

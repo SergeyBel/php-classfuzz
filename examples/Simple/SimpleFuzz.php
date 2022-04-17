@@ -4,7 +4,6 @@
 use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\Corpus\Generator\CharStringCorpus;
 use PhpClassFuzz\Fuzz\BaseFuzz;
-use PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
 use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
 class SimpleFuzz extends BaseFuzz
@@ -19,11 +18,9 @@ class SimpleFuzz extends BaseFuzz
         return $argument;
     }
 
-    public function getExceptionCatchers(): array
+    public function ignoreThrowable(\Throwable $throwable): bool
     {
-        return [
-            new AllowedExceptionListCatcher([]),
-        ];
+        return false;
     }
 
     public function getPostConditions(): array

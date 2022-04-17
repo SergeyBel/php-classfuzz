@@ -10,10 +10,9 @@ interface FuzzInterface
 {
     public function getArgument(): Argument;
 
-    /**
-     * @return array<ExceptionCatcherInterface>
-     */
-    public function getExceptionCatchers(): array;
+
+    public function ignoreThrowable(\Throwable $throwable): bool;
+
     public function getMaxCount(): int;
 
     /**

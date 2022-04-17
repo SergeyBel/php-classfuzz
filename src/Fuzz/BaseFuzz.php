@@ -10,9 +10,9 @@ class BaseFuzz implements FuzzInterface
     {
     }
 
-    public function getExceptionCatchers(): array
+    public function ignoreThrowable(\Throwable $throwable): bool
     {
-        return [];
+        return false;
     }
 
     public function getMaxCount(): int
