@@ -49,6 +49,6 @@ class ChangeCharMutatorTest extends TestCase
 
     private function getMutator($randomMock): ChangeCharMutator
     {
-        return new ChangeCharMutator($randomMock);
+        return (new ChangeCharMutator())->setRandom($randomMock);
     }
 }

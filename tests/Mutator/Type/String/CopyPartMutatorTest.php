@@ -47,6 +47,6 @@ class CopyPartMutatorTest extends TestCase
 
     private function getMutator($randomMock): CopyPartMutator
     {
-        return new CopyPartMutator($randomMock);
+        return (new CopyPartMutator())->setRandom($randomMock);
     }
 }

@@ -46,6 +46,6 @@ class SwapCharMutatorTest extends TestCase
 
     private function getMutator($randomMock): SwapCharMutator
     {
-        return new SwapCharMutator($randomMock);
+        return (new SwapCharMutator())->setRandom($randomMock);
     }
 }

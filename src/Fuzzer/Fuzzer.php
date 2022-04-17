@@ -11,7 +11,7 @@ use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingResultInterface;
-use PhpClassFuzz\PostCondition\PostConditionInterface;
+use PhpClassFuzz\PostCondition\PostConditionManager;
 use PhpClassFuzz\ThrowableCatcher\ExceptionCatcherManager;
 use Throwable;
 
@@ -20,6 +20,7 @@ class Fuzzer
     public function __construct(
         private FuzzCaller $fuzzCaller,
         private ExceptionCatcherManager $exceptionCatcherManager,
+        private PostConditionManager $postConditionManager,
         private Debug $debug
     ) {
     }
@@ -43,8 +44,8 @@ class Fuzzer
                     }
                     try {
                         $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $input);
-                        if (($violatedPostCondition = $this->checkPostConditions($fuzzClass->getPostConditions(), $callResult)) !== true) {
-                            return new FuzzingPostConditionViolationResult($fuzzClass, $violatedPostCondition, $input, $callResult);
+                        if (!$this->postConditionManager->checkPostCondition($fuzzClass, $callResult)) {
+                            return new FuzzingPostConditionViolationResult($fuzzClass, $input, $callResult);
                         }
                     } catch (Throwable $e) {
                         if (!$this->exceptionCatcherManager->canIgnoreThrowable($fuzzClass, $e)) {
@@ -60,16 +61,5 @@ class Fuzzer
         }
 
         return new FuzzingFinishedResult($fuzzClass, $runCount);
-    }
-
-    private function checkPostConditions(array $postConditions, $callResult): bool|PostConditionInterface
-    {
-        foreach ($postConditions as $postCondition) {
-            if (!$postCondition->checkPostCondition($callResult)) {
-                return $postCondition;
-            }
-        }
-
-        return true;
     }
 }

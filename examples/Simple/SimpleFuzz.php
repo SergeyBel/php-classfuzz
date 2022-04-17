@@ -23,11 +23,9 @@ class SimpleFuzz extends BaseFuzz
         return false;
     }
 
-    public function getPostConditions(): array
+    public function metPostCondition(mixed $callResult): bool
     {
-        return [
-
-        ];
+        return true;
     }
 
     public function getMaxCount(): int
@@ -39,7 +37,7 @@ class SimpleFuzz extends BaseFuzz
     public function fuzz(string $input)
     {
         if (strlen($input) > 15) {
-            throw new Exception();
+            throw new Exception('wrong input length');
         }
     }
 }

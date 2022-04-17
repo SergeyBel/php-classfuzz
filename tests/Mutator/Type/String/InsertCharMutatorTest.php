@@ -55,6 +55,6 @@ class InsertCharMutatorTest extends TestCase
 
     private function getMutator($randomMock): InsertCharMutator
     {
-        return new InsertCharMutator($randomMock);
+        return (new InsertCharMutator())->setRandom($randomMock);
     }
 }

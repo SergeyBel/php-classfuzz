@@ -1,8 +1,8 @@
 version: '3'
 services:
-  php-classfuzz:
+  classfuzz:
     build: "./docker"
-    container_name: php-classfuzz
+    container_name: classfuzz
     volumes:
       - ./:/app:rw
     stdin_open: true

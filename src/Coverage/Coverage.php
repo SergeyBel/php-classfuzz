@@ -16,29 +16,22 @@ class Coverage
         $filter->includeDirectory('vendor/subberworm/php-css-parser');
 
         $this->coverage = new CodeCoverage(
-            (new Selector)->forLineCoverage($filter),
+            (new Selector())->forLineCoverage($filter),
             $filter
         );
-
     }
     public function start()
     {
-
-
         $this->coverage->start('someid');
-
     }
 
     public function stop()
     {
         $this->coverage->stop();
-
     }
 
     public function report()
     {
-        (new HtmlReport)->process($this->coverage, 'code-coverage-report');
-
+        (new HtmlReport())->process($this->coverage, 'code-coverage-report');
     }
-
 }

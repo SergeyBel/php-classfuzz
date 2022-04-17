@@ -2,10 +2,8 @@
 
 
 use PhpClassFuzz\Argument\Argument;
-use PhpClassFuzz\Corpus\Facade\CorpusGeneratorFacade;
 use PhpClassFuzz\Corpus\Generator\DictionaryCorpus;
 use PhpClassFuzz\Fuzz\BaseFuzz;
-use PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
 use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
 class CssParserFuzz extends BaseFuzz
@@ -23,12 +21,11 @@ class CssParserFuzz extends BaseFuzz
         return $argument;
     }
 
-    public function getExceptionCatchers(): array
+    public function ignoreThrowable(\Throwable $throwable): bool
     {
-        return [
-            new AllowedExceptionListCatcher([]),
-        ];
+        return false;
     }
+
 
     public function getMaxCount(): int
     {

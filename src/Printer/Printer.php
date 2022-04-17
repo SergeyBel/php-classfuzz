@@ -42,7 +42,6 @@ class Printer
     {
         $message = 'Post condition violated when '.$result->getFuzzClassName().' fuzzed';
         $data = [
-            'post_condition' => $result->getPostConditionClassName(),
             'arguments' => $result->getInput(),
             'call_result' => $result->getCallResult(),
             'trace' => $this->getTrace(),

@@ -3,20 +3,16 @@
 namespace PhpClassFuzz\Fuzz;
 
 use PhpClassFuzz\Argument\Argument;
-use PhpClassFuzz\ExceptionCatcher\ExceptionCatcherInterface;
-use PhpClassFuzz\PostCondition\PostConditionInterface;
+use Throwable;
 
 interface FuzzInterface
 {
     public function getArgument(): Argument;
 
 
-    public function ignoreThrowable(\Throwable $throwable): bool;
+    public function ignoreThrowable(Throwable $throwable): bool;
 
     public function getMaxCount(): int;
 
-    /**
-     * @return array<PostConditionInterface>
-     */
-    public function getPostConditions(): array;
+    public function metPostCondition(mixed $callResult): bool;
 }

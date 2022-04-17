@@ -3,6 +3,7 @@
 namespace PhpClassFuzz\Fuzz;
 
 use PhpClassFuzz\Argument\Argument;
+use Throwable;
 
 class BaseFuzz implements FuzzInterface
 {
@@ -10,7 +11,7 @@ class BaseFuzz implements FuzzInterface
     {
     }
 
-    public function ignoreThrowable(\Throwable $throwable): bool
+    public function ignoreThrowable(Throwable $throwable): bool
     {
         return false;
     }
@@ -20,8 +21,8 @@ class BaseFuzz implements FuzzInterface
     }
 
 
-    public function getPostConditions(): array
+    public function metPostCondition(mixed $callResult): bool
     {
-        return [];
+        return true;
     }
 }

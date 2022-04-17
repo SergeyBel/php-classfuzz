@@ -7,9 +7,12 @@ use PhpClassFuzz\Random\Random;
 
 class CopyPartMutator implements MutatorInterface
 {
+    private Random $random;
+
     public function __construct(
-        private Random $random
+
     ) {
+        $this->random = new Random();
     }
 
     public function mutate($input)
@@ -22,5 +25,12 @@ class CopyPartMutator implements MutatorInterface
         $length = $partEnd - $partStart + 1;
         $part = substr($input, $partStart, $length);
         return substr_replace($input, $part.$part, $partStart, $length);
+    }
+
+
+    public function setRandom(Random $random): self
+    {
+        $this->random = $random;
+        return $this;
     }
 }

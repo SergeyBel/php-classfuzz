@@ -7,9 +7,12 @@ use PhpClassFuzz\Random\Random;
 
 class InsertCharMutator implements MutatorInterface
 {
+    private Random $random;
+
     public function __construct(
-        private Random $random
+
     ) {
+        $this->random = new Random();
     }
 
     public function mutate($input)
@@ -20,5 +23,12 @@ class InsertCharMutator implements MutatorInterface
         }
         $position = $this->random->getInt(0, strlen($input));
         return substr_replace($input, $char, $position, 0);
+    }
+
+
+    public function setRandom(Random $random): self
+    {
+        $this->random = $random;
+        return $this;
     }
 }

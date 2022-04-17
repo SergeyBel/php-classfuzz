@@ -27,38 +27,38 @@ Example (class file in 'fuzzing' directory):
 ```php
 class SimpleFuzz extends BaseFuzz
 {
-    // describe arguments for fuzz() method
-    public function getArguments(): Arguments
+    // describe how to generate arguments for fuzz() method
+    // set initial Corpus and Mutators
+    public function getArgument(): Argument
     {
-       
-        $args = new Arguments();
-        $args->setArgument(0, new Argument(
-            // set corpus data
-            // data can be set manually or by using some prepared helpers
-            // in this example `CharStringCorpus` is used to generate corpus 
-            CorpusGeneratorFacade::getGenerator(CharStringCorpus::class)->generate(100),
-            // set mutators
+        $argument = new Argument(
+            (new CharStringCorpus())->generate(100),
             StringMutatorFacade::getAllMutators(),
-        ));
+        );
 
-        return $args;
+        return $argument;
     }
 
     // set expectations about exceptions
-    public function getExceptionCatchers(): array
+    // to ignore some exceptions return true
+    // in this example all exceptions threaded as fuzz error
+    public function ignoreThrowable(\Throwable $throwable): bool
     {
-        // some exception can be unexpected and treated as fuzzer findings but other can be ignored
-        // f.e. `AllowedExceptionListCatcher` define a list of allowed (ignored) exceptions
-        // in this example all exceptions will be treated as fuzzing finding
-        return [
-            new AllowedExceptionListCatcher([]),
-        ];
+        return false;
     }
 
     // set maximum count of `fuzz` method call
     public function getMaxCount(): int
     {
         return 1000;
+    }
+    
+    // check post conditions for method result
+    // can be used for various checks of method output
+    // in this example no checks
+    public function metPostCondition(mixed $callResult): bool
+    {
+        return true;
     }
 
     // main method in fuzzing process
@@ -87,10 +87,7 @@ Generator classes must implement `GeneratorInterface`
 Data from corpus are mutated by Mutators classes  
 Mutator classes must implement `MutatorInterface`
 
-## ExceptionCatchers
-Exceptions catchers are used to analyze thrown exceptions. Some exceptions may be the expected result when calling class methods on corpus data, and some may not. Exceptions catchers are needed to manage this  
-ExceptionCatcher classes must implement `ExceptionCatcherInterface`
 
 ## PostConditions
-Post conditions are used to check the result of a `fuzz` method call. If some conditions need to be met for the results of the `fuzz` method they can be checked in PostCondition classes  
-PostCondition classes must implement `PostConditionInterface`
+Post conditions are used to check the result of a `fuzz` method call. If some conditions need to be met for the results of the `fuzz` method they can be checked in `metPostCondition` method  
+

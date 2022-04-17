@@ -45,6 +45,6 @@ class DeleteCharMutatorTest extends TestCase
 
     private function getMutator($randomMock): DeleteCharMutator
     {
-        return new DeleteCharMutator($randomMock);
+        return (new DeleteCharMutator())->setRandom($randomMock);
     }
 }
