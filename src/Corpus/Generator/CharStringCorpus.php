@@ -7,13 +7,19 @@ use PhpClassFuzz\Random\Random;
 
 class CharStringCorpus implements GeneratorInterface
 {
-    private int $minLength = 0;
+    private int $minLength;
 
-    private int $maxLength = 25;
+    private int $maxLength;
+
+    private Random $random;
 
     public function __construct(
-        private Random $random
+        int $minLength = 0,
+        int $maxLength = 25
     ) {
+        $this->minLength = $minLength;
+        $this->maxLength = $maxLength;
+        $this->random = new Random();
     }
 
 
@@ -29,19 +35,5 @@ class CharStringCorpus implements GeneratorInterface
             $data[] = $str;
         }
         return new Corpus($data);
-    }
-
-
-    public function setMinLength(int $minLength): self
-    {
-        $this->minLength = $minLength;
-        return $this;
-    }
-
-
-    public function setMaxLength(int $maxLength): self
-    {
-        $this->maxLength = $maxLength;
-        return $this;
     }
 }

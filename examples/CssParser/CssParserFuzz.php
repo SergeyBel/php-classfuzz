@@ -13,10 +13,10 @@ class CssParserFuzz extends BaseFuzz
     public function getArgument(): Argument
     {
         $argument = new Argument(
-            CorpusGeneratorFacade::getGenerator(DictionaryCorpus::class)
-                ->setDictionary(['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'])
-                ->setMaxLen(25)
-                ->generate(100),
+            (new DictionaryCorpus(
+                ['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'],
+                25
+            ))->generate(100),
             StringMutatorFacade::getAllMutators(),
         );
 

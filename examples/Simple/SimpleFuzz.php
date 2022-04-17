@@ -2,7 +2,6 @@
 
 
 use PhpClassFuzz\Argument\Argument;
-use PhpClassFuzz\Corpus\Facade\CorpusGeneratorFacade;
 use PhpClassFuzz\Corpus\Generator\CharStringCorpus;
 use PhpClassFuzz\Fuzz\BaseFuzz;
 use PhpClassFuzz\ExceptionCatcher\Catcher\AllowedExceptionListCatcher;
@@ -13,7 +12,7 @@ class SimpleFuzz extends BaseFuzz
     public function getArgument(): Argument
     {
         $argument = new Argument(
-            CorpusGeneratorFacade::getGenerator(CharStringCorpus::class)->generate(100),
+            (new CharStringCorpus())->generate(100),
             StringMutatorFacade::getAllMutators(),
         );
 
