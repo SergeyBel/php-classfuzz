@@ -9,6 +9,7 @@ class RunnerConfiguration
     private bool $debug;
 
 
+
     public function getDirectory(): string
     {
         return $this->directory;

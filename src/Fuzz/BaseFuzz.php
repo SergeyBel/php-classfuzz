@@ -25,4 +25,9 @@ class BaseFuzz implements FuzzInterface
     {
         return true;
     }
+
+    public function getCoveragePath(): ?string
+    {
+        return null;
+    }
 }

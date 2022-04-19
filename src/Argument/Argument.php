@@ -4,8 +4,6 @@ namespace PhpClassFuzz\Argument;
 
 use PhpClassFuzz\Collection\Corpus;
 
-;
-
 class Argument
 {
     private Corpus $corpus;

@@ -5,24 +5,35 @@ namespace PhpClassFuzz\Coverage;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Driver\Selector;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
+use Exception;
 
 class Coverage
 {
     private $coverage;
+    private $filter;
+    private $path;
     public function __construct()
     {
-        $filter = new Filter();
-        $filter->includeDirectory('vendor/subberworm/php-css-parser');
-
-        $this->coverage = new CodeCoverage(
-            (new Selector())->forLineCoverage($filter),
-            $filter
-        );
+        $this->path = null;
+        $this->filter = new Filter();
     }
-    public function start()
+    public function start($path)
     {
-        $this->coverage->start('someid');
+        if (!$this->path) {
+            $realpath = realpath($path);
+            if (!$realpath) {
+                throw new Exception('coverage path not found');
+            }
+            $this->path = $path;
+            $this->filter->includeDirectory($path);
+            $this->coverage = new CodeCoverage(
+                (new Selector())->forLineAndPathCoverage($this->filter),
+                $this->filter
+            );
+        }
+
+
+        $this->coverage->start($this->path);
     }
 
     public function stop()
@@ -30,8 +41,23 @@ class Coverage
         $this->coverage->stop();
     }
 
-    public function report()
+    public function getCoverageData()
     {
-        (new HtmlReport())->process($this->coverage, 'code-coverage-report');
+        return $this->parseCoverageData($this->coverage->getData());
+    }
+
+    private function parseCoverageData($coverageData): LineCoverageData
+    {
+        $data = new LineCoverageData();
+        $linesData = $coverageData->lineCoverage();
+        foreach ($linesData as $file => $lines) {
+            foreach ($lines as $lineNumber => $lineInfo) {
+                if (!empty($lineInfo)) {
+                    $data->addLine($file, $lineNumber);
+                }
+            }
+        }
+
+        return $data;
     }
 }

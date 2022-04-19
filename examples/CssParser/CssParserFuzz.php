@@ -32,6 +32,11 @@ class CssParserFuzz extends BaseFuzz
         return 100;
     }
 
+    public function getCoveragePath(): ?string
+    {
+        return __DIR__. '/../../vendor/sabberworm/php-css-parser';
+    }
+
 
     public function fuzz(string $text)
     {
