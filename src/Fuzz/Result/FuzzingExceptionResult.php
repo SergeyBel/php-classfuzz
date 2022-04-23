@@ -2,6 +2,7 @@
 
 namespace PhpClassFuzz\Fuzz\Result;
 
+use PhpClassFuzz\Fuzz\FuzzInterface;
 use Throwable;
 
 class FuzzingExceptionResult implements FuzzingResultInterface
@@ -12,15 +13,15 @@ class FuzzingExceptionResult implements FuzzingResultInterface
 
     private string $message;
 
-    private $input;
+    private mixed $input;
 
-    public function __construct($fuzzClass, Throwable $e, $input)
+
+    public function __construct(FuzzInterface $fuzzClass, Throwable $e, mixed $input)
     {
         $this->fuzzClassName = get_class($fuzzClass);
         $this->exceptionClass = get_class($e);
         $this->message = $e->getMessage();
         $this->input = $input;
-        $this->trace = $e->getTraceAsString();
     }
 
 
@@ -36,12 +37,10 @@ class FuzzingExceptionResult implements FuzzingResultInterface
     }
 
 
-
-    public function getInput()
+    public function getInput(): mixed
     {
         return $this->input;
     }
-
 
     public function getFuzzClassName(): string
     {

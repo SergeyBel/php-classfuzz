@@ -22,7 +22,7 @@ class Runner
         private Printer $printer
     ) {
     }
-    public function runAllFuzz(RunnerConfiguration $configuration)
+    public function runAllFuzz(RunnerConfiguration $configuration): void
     {
         $files = $this->fuzzFileFinder->findFuzzFiles($configuration->getDirectory());
         $fuzzClasses = $this->fuzzClassFinder->findFuzzClasses($files);
@@ -35,7 +35,7 @@ class Runner
         }
     }
 
-    private function registerErrorhandler()
+    private function registerErrorhandler(): void
     {
         set_error_handler(
             function ($errno, $errstr, $errfile, $errline) {

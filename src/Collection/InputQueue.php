@@ -4,6 +4,9 @@ namespace PhpClassFuzz\Collection;
 
 class InputQueue
 {
+    /**
+     * @var mixed[]
+     */
     private array $data;
 
     public function __construct()
@@ -11,12 +14,12 @@ class InputQueue
         $this->data = [];
     }
 
-    public function push($element)
+    public function push(mixed $element): void
     {
         array_push($this->data, $element);
     }
 
-    public function pop()
+    public function pop(): mixed
     {
         return array_pop($this->data);
     }

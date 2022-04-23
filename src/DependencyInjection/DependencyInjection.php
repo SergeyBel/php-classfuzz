@@ -4,12 +4,12 @@ namespace PhpClassFuzz\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\TaggedContainerInterface;
 
 class DependencyInjection
 {
-    public function compileContainer(): ContainerInterface
+    public function compileContainer(): TaggedContainerInterface
     {
         $containerBuilder = new ContainerBuilder();
         $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__.'/../Config'));
@@ -18,7 +18,10 @@ class DependencyInjection
         return $containerBuilder;
     }
 
-    public function getServicesByTag(ContainerInterface $container, string $tag): array
+    /**
+     * @return object[]
+     */
+    public function getServicesByTag(TaggedContainerInterface $container, string $tag): array
     {
         $services = [];
         foreach ($container->findTaggedServiceIds($tag) as $className => $definition) {

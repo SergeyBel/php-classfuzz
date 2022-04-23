@@ -3,13 +3,12 @@
 namespace PhpClassFuzz\Fuzzer;
 
 use PhpClassFuzz\Collection\InputQueue;
-use PhpClassFuzz\Context\Context;
-use PhpClassFuzz\Corpus\CorpusEndException;
 use PhpClassFuzz\Coverage\Coverage;
 use PhpClassFuzz\Coverage\LineCoverageAnalyzer;
 use PhpClassFuzz\Coverage\LineCoverageData;
 use PhpClassFuzz\Debug\Debug;
 
+use PhpClassFuzz\Exception\CorpusEndException;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
 use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
@@ -33,7 +32,6 @@ class Fuzzer
 
     public function runFuzzing(FuzzInterface $fuzzClass, bool $isDebug): FuzzingResultInterface
     {
-        Context::setFuzzClassName(get_class($fuzzClass));
         $argument = $fuzzClass->getArgument();
         $maxCount = $fuzzClass->getMaxCount();
         $needCoverage = !empty($fuzzClass->getCoveragePath());
@@ -58,7 +56,6 @@ class Fuzzer
                     $this->coverage->start($fuzzClass->getCoveragePath());
                 }
 
-                Context::setInput($input);
                 if ($isDebug) {
                     $this->debug->debugPrint($input);
                 }
@@ -70,14 +67,17 @@ class Fuzzer
                 $runCount++;
                 if ($needCoverage) {
                     $this->analyzeCoverage($input, $inputQueue, $currentCoverage);
+                    if ($isDebug) {
+                        $this->debug->debugPrint('total coverage lines '. $currentCoverage->totalLines());
+                    }
                 }
             }
         }
 
-        return new FuzzingFinishedResult($fuzzClass, $runCount);
+        return new FuzzingFinishedResult($runCount);
     }
 
-    private function runOneInput(FuzzInterface $fuzzClass, $input): ?FuzzingResultInterface
+    private function runOneInput(FuzzInterface $fuzzClass, mixed $input): ?FuzzingResultInterface
     {
         try {
             $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $input);
@@ -93,7 +93,7 @@ class Fuzzer
         return null;
     }
 
-    private function analyzeCoverage($input, InputQueue $queue, LineCoverageData $currentCoverage)
+    private function analyzeCoverage(mixed $input, InputQueue $queue, LineCoverageData $currentCoverage): void
     {
         $this->coverage->stop();
         $actualCoverage = $this->coverage->getCoverageData();

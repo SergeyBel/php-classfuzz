@@ -20,6 +20,10 @@ jobs:
         run: |
           ./vendor/bin/php-cs-fixer fix --dry-run
 
+      - name: Static analysis
+        run: |
+          ./vendor/bin/phpstan analyze src --level=7
+
       - name: Tests
         run: |
           ./vendor/bin/phpunit tests

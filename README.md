@@ -93,3 +93,17 @@ Post conditions are used to check the result of a `fuzz` method call. If some co
 
 ## Coverage
 This library has the option to apply coverage analysis to find the most perspective input data. To activate coverage analysis, it is needed to use method `getCoveragePath`
+
+
+## Development
+1. git clone https://github.com/SergeyBel/php-classfuzz.git
+2. docker-compose build
+3. docker-compose up -d
+4. use make commands
+
+
+`make test` - run tests  
+`make fix` - run code style fixer  
+`make static` - run code static analysis 
+
+

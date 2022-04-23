@@ -4,5 +4,5 @@ namespace PhpClassFuzz\Mutator;
 
 interface MutatorInterface
 {
-    public function mutate($input);
+    public function mutate(mixed $input): mixed;
 }

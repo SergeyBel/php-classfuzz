@@ -2,11 +2,9 @@
 
 namespace PhpClassFuzz\Exception;
 
-use Exception;
-
-class PhpErrorException extends Exception
+class PhpErrorException extends ClassFuzzException
 {
-    public function __construct($errno, $errstr, $errfile, $errline)
+    public function __construct(int $errno, string $errstr, string $errfile, int $errline)
     {
         $data = [
             'level' => $errno,
@@ -15,6 +13,6 @@ class PhpErrorException extends Exception
             'line' => $errline,
         ];
 
-        parent::__construct(print_r($data, 1));
+        parent::__construct(print_r($data, true));
     }
 }

@@ -6,18 +6,21 @@ use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\Driver\Selector;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use Exception;
+use SebastianBergmann\CodeCoverage\ProcessedCodeCoverageData;
 
 class Coverage
 {
-    private $coverage;
-    private $filter;
-    private $path;
+    private CodeCoverage $coverage;
+    private Filter $filter;
+    private ?string $path;
+
+
     public function __construct()
     {
         $this->path = null;
         $this->filter = new Filter();
     }
-    public function start($path)
+    public function start(string $path): void
     {
         if (!$this->path) {
             $realpath = realpath($path);
@@ -36,17 +39,17 @@ class Coverage
         $this->coverage->start($this->path);
     }
 
-    public function stop()
+    public function stop(): void
     {
         $this->coverage->stop();
     }
 
-    public function getCoverageData()
+    public function getCoverageData(): LineCoverageData
     {
         return $this->parseCoverageData($this->coverage->getData());
     }
 
-    private function parseCoverageData($coverageData): LineCoverageData
+    private function parseCoverageData(ProcessedCodeCoverageData $coverageData): LineCoverageData
     {
         $data = new LineCoverageData();
         $linesData = $coverageData->lineCoverage();

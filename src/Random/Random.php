@@ -16,6 +16,10 @@ class Random
         return $characters[$position];
     }
 
+    /**
+     * @param mixed[] $data
+     * @return mixed[]
+     */
     public function getFromArray(array $data, int $length): array
     {
         $randomValues = [];

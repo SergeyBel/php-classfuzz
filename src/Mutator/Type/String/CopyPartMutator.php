@@ -15,7 +15,11 @@ class CopyPartMutator implements MutatorInterface
         $this->random = new Random();
     }
 
-    public function mutate($input)
+
+    /**
+     * @param string $input
+     */
+    public function mutate($input): string
     {
         if (strlen($input) == 0) {
             return $input;

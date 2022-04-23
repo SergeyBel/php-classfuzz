@@ -4,9 +4,10 @@ namespace PhpClassFuzz\Coverage;
 
 class LineCoverageData
 {
+    /** @var array<string, array<int>>  */
     private array $data = [];
 
-    public function addLine(string $file, int $lineNumber)
+    public function addLine(string $file, int $lineNumber): void
     {
         if (!array_key_exists($file, $this->data)) {
             $this->data[$file] = [];
@@ -17,22 +18,32 @@ class LineCoverageData
         }
     }
 
-    public function getData()
+    /**
+     * @return array<string, array<int>>
+     */
+    public function getData(): array
     {
         return $this->data;
     }
 
-    public function getFiles()
+
+    /**
+     * @return string[]
+     */
+    public function getFiles(): array
     {
         return array_keys($this->data);
     }
 
+    /**
+     * @return int[]
+     */
     public function getLines(string $file): ?array
     {
-        return isset($this->data[$file]) ? $this->data[$file] : null;
+        return isset($this->data[$file]) ? $this->data[$file] : [];
     }
 
-    public function merge(LineCoverageData $coverageData)
+    public function merge(LineCoverageData $coverageData): void
     {
         $this->data = array_merge_recursive($this->data, $coverageData->getData());
     }
@@ -40,7 +51,7 @@ class LineCoverageData
     public function totalLines(): int
     {
         $total = 0;
-        foreach ($this->data as $file => $lines) {
+        foreach ($this->data as $lines) {
             $total += count($lines);
         }
         return $total;

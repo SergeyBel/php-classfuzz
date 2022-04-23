@@ -6,8 +6,6 @@ use PhpClassFuzz\Collection\Corpus;
 
 class PhpLanguageGenerator implements GeneratorInterface
 {
-    private ?int $maxLength = null;
-
     private DictionaryCorpus $dictionaryCorpus;
 
     public function __construct(
@@ -20,23 +18,6 @@ class PhpLanguageGenerator implements GeneratorInterface
     }
     public function generate(int $count): Corpus
     {
-        if ($this->maxLength) {
-            $this->dictionaryCorpus->setMaxLen($this->maxLength);
-        }
-
         return $this->dictionaryCorpus->generate($count);
-    }
-
-
-    public function getMaxLength(): ?int
-    {
-        return $this->maxLength;
-    }
-
-
-    public function setMaxLength(?int $maxLength): self
-    {
-        $this->maxLength = $maxLength;
-        return $this;
     }
 }

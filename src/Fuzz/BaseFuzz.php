@@ -3,12 +3,14 @@
 namespace PhpClassFuzz\Fuzz;
 
 use PhpClassFuzz\Argument\Argument;
+use PhpClassFuzz\Exception\ClassFuzzException;
 use Throwable;
 
 class BaseFuzz implements FuzzInterface
 {
     public function getArgument(): Argument
     {
+        throw new ClassFuzzException('getArgument must be implemented');
     }
 
     public function ignoreThrowable(Throwable $throwable): bool
@@ -18,6 +20,7 @@ class BaseFuzz implements FuzzInterface
 
     public function getMaxCount(): int
     {
+        return 1000;
     }
 
 

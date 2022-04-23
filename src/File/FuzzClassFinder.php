@@ -8,7 +8,8 @@ use PhpClassFuzz\Fuzz\FuzzInterface;
 class FuzzClassFinder
 {
     /**
-     * @return array<FuzzInterface>
+     * @param string[] $files
+     * @return FuzzInterface[]
      */
     public function findFuzzClasses(array $files): array
     {

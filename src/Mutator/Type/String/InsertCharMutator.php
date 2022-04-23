@@ -15,7 +15,10 @@ class InsertCharMutator implements MutatorInterface
         $this->random = new Random();
     }
 
-    public function mutate($input)
+    /**
+     * @param string $input
+     */
+    public function mutate($input): string
     {
         $char = $this->random->getSymbol();
         if (strlen($input) == 0) {

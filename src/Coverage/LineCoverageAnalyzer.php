@@ -4,7 +4,7 @@ namespace PhpClassFuzz\Coverage;
 
 class LineCoverageAnalyzer
 {
-    public function hasNewLines(LineCoverageData $oldData, LineCoverageData $newData)
+    public function hasNewLines(LineCoverageData $oldData, LineCoverageData $newData): bool
     {
         $oldFiles = $oldData->getFiles();
         $newFiles = $newData->getFiles();

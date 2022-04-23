@@ -6,6 +6,9 @@ use Symfony\Component\Finder\Finder;
 
 class FuzzFileFinder
 {
+    /**
+     * @return string[]
+     */
     public function findFuzzFiles(string $directory): array
     {
         $finder = new Finder();
