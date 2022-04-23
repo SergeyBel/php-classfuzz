@@ -22,7 +22,7 @@ jobs:
 
       - name: Static analysis
         run: |
-          ./vendor/bin/phpstan analyze src --level=7
+          ./vendor/bin/phpstan analyze src --level=6
 
       - name: Tests
         run: |
