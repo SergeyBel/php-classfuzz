@@ -91,3 +91,5 @@ Mutator classes must implement `MutatorInterface`
 ## PostConditions
 Post conditions are used to check the result of a `fuzz` method call. If some conditions need to be met for the results of the `fuzz` method they can be checked in `metPostCondition` method  
 
+## Coverage
+This library has the option to apply coverage analysis to find the most perspective input data. To activate coverage analysis, it is needed to use method `getCoveragePath`
