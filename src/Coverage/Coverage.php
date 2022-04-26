@@ -2,10 +2,10 @@
 
 namespace PhpClassFuzz\Coverage;
 
-use SebastianBergmann\CodeCoverage\Filter;
-use SebastianBergmann\CodeCoverage\Driver\Selector;
-use SebastianBergmann\CodeCoverage\CodeCoverage;
 use Exception;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
+use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\ProcessedCodeCoverageData;
 
 class Coverage
