@@ -18,7 +18,7 @@ class BaseFuzz implements FuzzInterface
         return false;
     }
 
-    public function getMaxCount(): int
+    public function getMaxCount(): ?int
     {
         return 1000;
     }

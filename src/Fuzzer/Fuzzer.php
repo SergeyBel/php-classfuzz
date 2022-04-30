@@ -39,7 +39,7 @@ class Fuzzer
         $inputQueue = new InputQueue();
         $currentCoverage = new LineCoverageData();
 
-        while ($runCount < $maxCount) {
+        while (!$this->isFinished($runCount, $maxCount)) {
             if ($inputQueue->isEmpty()) {
                 try {
                     $corpusItem = $argument->getCorpus()->getNextCorpusItem();
@@ -81,6 +81,14 @@ class Fuzzer
             }
         }
         return new FuzzingFinishedResult($runCount);
+    }
+
+    private function isFinished(int $runCount, ?int $maxCount): bool
+    {
+        if ($maxCount === null) {
+            return false;
+        }
+        return $runCount < $maxCount;
     }
 
     private function runOneInput(FuzzInterface $fuzzClass, mixed $input): ?FuzzingResultInterface

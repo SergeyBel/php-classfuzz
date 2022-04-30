@@ -27,9 +27,9 @@ class CssParserFuzz extends BaseFuzz
     }
 
 
-    public function getMaxCount(): int
+    public function getMaxCount(): ?int
     {
-        return 100;
+        return null;
     }
 
     public function getCoveragePath(): ?string
