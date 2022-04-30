@@ -88,7 +88,7 @@ class Fuzzer
         if ($maxCount === null) {
             return false;
         }
-        return $runCount < $maxCount;
+        return $runCount > $maxCount;
     }
 
     private function runOneInput(FuzzInterface $fuzzClass, mixed $input): ?FuzzingResultInterface
