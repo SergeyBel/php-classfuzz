@@ -74,6 +74,12 @@ class Fuzzer
             }
         }
 
+        if ($needCoverage) {
+            if ($isDebug) {
+                $this->debug->debugPrint('generate coverage report');
+                $this->coverage->saveHtmlReport();
+            }
+        }
         return new FuzzingFinishedResult($runCount);
     }
 

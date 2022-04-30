@@ -7,6 +7,7 @@ use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\ProcessedCodeCoverageData;
+use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
 
 class Coverage
 {
@@ -47,6 +48,11 @@ class Coverage
     public function getCoverageData(): LineCoverageData
     {
         return $this->parseCoverageData($this->coverage->getData());
+    }
+
+    public function saveHtmlReport(): void
+    {
+        (new HtmlReport())->process($this->coverage, 'code-coverage-report');
     }
 
     private function parseCoverageData(ProcessedCodeCoverageData $coverageData): LineCoverageData

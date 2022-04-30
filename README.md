@@ -4,7 +4,7 @@ This is a fuzzer for PHP classes. It can be used to find bugs by [fuzzing](https
 
 
 # Installation
-`composer require sergey-bel/php-classfuzz`
+`composer require --dev sergey-bel/php-classfuzz`
 
 
 # Overview

@@ -12,7 +12,7 @@ class CssParserFuzz extends BaseFuzz
     {
         $argument = new Argument(
             (new DictionaryCorpus(
-                ['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#'],
+                ['{','}','.', ',', '%', 's', '\\', '/', 'a', 'b', 'c', ':', ';', '!', '#', 'import', '@'],
                 25
             ))->generate(100),
             StringMutatorFacade::getAllMutators(),
