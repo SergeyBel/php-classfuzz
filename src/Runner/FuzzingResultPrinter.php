@@ -1,13 +1,13 @@
 <?php
 
-namespace PhpClassFuzz\Printer;
+namespace PhpClassFuzz\Runner;
 
-use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
 use Exception;
+use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingFinishedResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
 
-class Printer
+class FuzzingResultPrinter
 {
     public function printException(FuzzingExceptionResult $result): void
     {

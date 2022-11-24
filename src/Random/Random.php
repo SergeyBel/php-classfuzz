@@ -14,8 +14,9 @@ class Random
         return $this->getInt(0, 1) == 1;
     }
 
-    public function getFromArray(array $data): mixed {
-        return array_rand($data);
+    public function getFromArray(array $data): mixed
+    {
+        return $data[array_rand($data)];
     }
 
     public function getSymbol(): string

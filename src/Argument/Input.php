@@ -6,7 +6,6 @@ class Input
 {
     public function __construct(
         public readonly array $arguments
-    ) {}
-
-
+    ) {
+    }
 }

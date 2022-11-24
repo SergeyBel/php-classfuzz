@@ -2,7 +2,6 @@
 
 namespace PhpClassFuzz\Fuzz;
 
-use PhpClassFuzz\Argument\Argument;
 use PhpClassFuzz\Exception\ClassFuzzException;
 use Throwable;
 

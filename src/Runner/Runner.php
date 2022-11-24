@@ -5,13 +5,12 @@ namespace PhpClassFuzz\Runner;
 use PhpClassFuzz\Exception\PhpErrorException;
 use PhpClassFuzz\File\FuzzClassFinder;
 use PhpClassFuzz\File\FuzzFileFinder;
-use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingResultInterface;
 use PhpClassFuzz\Fuzzer\Fuzzer;
-use PhpClassFuzz\Printer\Printer;
 use Exception;
+use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingFinishedResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingResultInterface;
 
 class Runner
 {
@@ -19,7 +18,7 @@ class Runner
         private FuzzFileFinder $fuzzFileFinder,
         private FuzzClassFinder $fuzzClassFinder,
         private Fuzzer $fuzzer,
-        private Printer $printer
+        private FuzzingResultPrinter $printer
     ) {
     }
     public function runFilesFuzzing(RunnerConfiguration $configuration): void

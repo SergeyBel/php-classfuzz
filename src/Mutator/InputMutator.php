@@ -11,12 +11,10 @@ class InputMutator
     public function __construct(
         private Random $random,
         private ArgumentMutator $argumentMutator
-    )
-    {
+    ) {
     }
 
     /**
-     * @param Input $input
      * @return Input[]
      */
     public function mutateInput(Input $input): array
@@ -24,12 +22,10 @@ class InputMutator
         $mutantsCount = $this->random->getInt(1, self::MAX_MUTANTS);
         $mutants = [];
         $arguments = $input->arguments;
-        for ($i = 0; $i < $mutantsCount; $i++)
-        {
+        for ($i = 0; $i < $mutantsCount; $i++) {
             $mutant = [];
             foreach ($arguments as $argument) {
                 if ($this->random->getBool()) {
-                    var_dump('MUTATE '.$mutantsCount);
                     $mutant[] = $this->argumentMutator->mutateArgument($argument);
                 } else {
                     $mutant[] = $argument;
@@ -39,5 +35,4 @@ class InputMutator
         }
         return $mutants;
     }
-
 }

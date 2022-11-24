@@ -2,7 +2,8 @@
 
 namespace PhpClassFuzz\Mutator;
 
-class MutatorUnknownTypeException extends \Exception
-{
+use Exception;
 
+class MutatorUnknownTypeException extends Exception
+{
 }

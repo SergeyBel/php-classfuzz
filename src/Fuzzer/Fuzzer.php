@@ -2,17 +2,17 @@
 
 namespace PhpClassFuzz\Fuzzer;
 
-use PhpClassFuzz\Collection\InputQueue;
+use PhpClassFuzz\Argument\InputQueue;
 use PhpClassFuzz\Coverage\Coverage;
 use PhpClassFuzz\Coverage\LineCoverageAnalyzer;
 use PhpClassFuzz\Coverage\LineCoverageData;
 use PhpClassFuzz\Debug\Debug;
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
-use PhpClassFuzz\Fuzz\Result\FuzzingExceptionResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingFinishedResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingPostConditionViolationResult;
-use PhpClassFuzz\Fuzz\Result\FuzzingResultInterface;
+use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingFinishedResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
+use PhpClassFuzz\Fuzzer\Result\FuzzingResultInterface;
 use PhpClassFuzz\Mutator\InputMutator;
 use PhpClassFuzz\PostCondition\PostConditionManager;
 use PhpClassFuzz\ThrowableCatcher\ExceptionCatcherManager;
@@ -114,7 +114,8 @@ class Fuzzer
         }
     }
 
-    private function debugPrintInput(Input $input) {
+    private function debugPrintInput(Input $input)
+    {
         $data = [];
         foreach ($input->arguments as $argument) {
             $data[] = $argument->value;

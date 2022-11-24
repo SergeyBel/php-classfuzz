@@ -3,24 +3,23 @@
 namespace PhpClassFuzz\Mutator\Type\String;
 
 use PhpClassFuzz\DependencyInjection\DependencyInjection;
-use PhpClassFuzz\Mutator\Type\String\Mutator\InsertCharStringMutator;
 use PhpClassFuzz\Random\Random;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class StringMutator
 {
-
     public function __construct(
-        private Random $random
-    )
-    {
+        private Random $random,
+        private ContainerInterface $container
+    ) {
     }
 
     public function mutate(string $str): string
     {
-        $mutator = new InsertCharStringMutator();
+        $mutators = $this->getAllMutators();
+        /** @var StringMutatorInterface $mutator */
+        $mutator = $this->random->getFromArray($mutators);
         return $mutator->mutate($str);
-
-
     }
 
     /**
@@ -29,9 +28,8 @@ class StringMutator
     private function getAllMutators(): array
     {
         $builder = new DependencyInjection();
-        $container = $builder->compileContainer();
-        $services = $builder->getServicesByTag($container, 'fuzz.mutator.string');
+        ;
+        $services = $builder->getServicesByTag($this->container, 'fuzz.mutator.string');
         return $services;
     }
-
 }

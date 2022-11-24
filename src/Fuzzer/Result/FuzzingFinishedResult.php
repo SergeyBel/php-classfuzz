@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClassFuzz\Fuzz\Result;
+namespace PhpClassFuzz\Fuzzer\Result;
 
 class FuzzingFinishedResult implements FuzzingResultInterface
 {

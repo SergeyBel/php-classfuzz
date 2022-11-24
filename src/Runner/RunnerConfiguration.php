@@ -9,12 +9,10 @@ class RunnerConfiguration
     private bool $debug;
 
 
-
     public function getDirectory(): string
     {
         return $this->directory;
     }
-
 
     public function setDirectory(string $directory): self
     {
@@ -22,12 +20,10 @@ class RunnerConfiguration
         return $this;
     }
 
-
     public function isDebug(): bool
     {
         return $this->debug;
     }
-
 
     public function setDebug(bool $debug): self
     {

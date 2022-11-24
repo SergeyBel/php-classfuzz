@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClassFuzz\Fuzz\Result;
+namespace PhpClassFuzz\Fuzzer\Result;
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use Throwable;

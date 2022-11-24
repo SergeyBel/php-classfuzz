@@ -2,7 +2,6 @@
 
 namespace PhpClassFuzz\Mutator\Type\String\Mutator;
 
-
 use PhpClassFuzz\Mutator\Type\String\StringMutatorInterface;
 use PhpClassFuzz\Random\Random;
 

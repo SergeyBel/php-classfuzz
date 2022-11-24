@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClassFuzz\Collection;
+namespace PhpClassFuzz\Argument;
 
 class InputQueue
 {
