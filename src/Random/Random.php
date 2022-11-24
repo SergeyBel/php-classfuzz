@@ -9,11 +9,6 @@ class Random
         return random_int($min, $max);
     }
 
-    public function getBool(): bool
-    {
-        return $this->getInt(0, 1) == 1;
-    }
-
     /**
      * @param array<mixed> $data
      */

@@ -7,7 +7,7 @@ use PhpClassFuzz\Random\Random;
 
 class InputMutator
 {
-    public const MAX_MUTANTS = 50;
+    public const MAX_MUTANTS = 100;
     public function __construct(
         private Random $random,
         private ArgumentMutator $argumentMutator
@@ -25,11 +25,7 @@ class InputMutator
         for ($i = 0; $i < $mutantsCount; $i++) {
             $mutant = [];
             foreach ($arguments as $argument) {
-                if ($this->random->getBool()) {
-                    $mutant[] = $this->argumentMutator->mutateArgument($argument);
-                } else {
-                    $mutant[] = $argument;
-                }
+                $mutant[] = $this->argumentMutator->mutateArgument($argument);
             }
             $mutants[] = new Input($mutant);
         }

@@ -1,6 +1,8 @@
 <?php
 
-namespace PhpClassFuzz\Exception;
+namespace PhpClassFuzz\Fuzzer;
+
+use PhpClassFuzz\Fuzz\ClassFuzzException;
 
 class PhpErrorException extends ClassFuzzException
 {

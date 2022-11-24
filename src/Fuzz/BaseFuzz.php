@@ -2,7 +2,6 @@
 
 namespace PhpClassFuzz\Fuzz;
 
-use PhpClassFuzz\Exception\ClassFuzzException;
 use Throwable;
 
 class BaseFuzz implements FuzzInterface

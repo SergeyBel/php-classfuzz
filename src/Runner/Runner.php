@@ -2,11 +2,11 @@
 
 namespace PhpClassFuzz\Runner;
 
-use PhpClassFuzz\Exception\PhpErrorException;
 use PhpClassFuzz\File\FuzzClassFinder;
 use PhpClassFuzz\File\FuzzFileFinder;
 use PhpClassFuzz\Fuzzer\Fuzzer;
 use Exception;
+use PhpClassFuzz\Fuzzer\PhpErrorException;
 use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingFinishedResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;

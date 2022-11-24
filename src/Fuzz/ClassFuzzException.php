@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpClassFuzz\Exception;
+namespace PhpClassFuzz\Fuzz;
 
 use Exception;
 
