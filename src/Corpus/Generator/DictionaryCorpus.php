@@ -34,7 +34,7 @@ class DictionaryCorpus implements GeneratorInterface
         $data = [];
         for ($i = 0; $i < $count; $i++) {
             $length = $this->random->getInt(0, $max);
-            $str = implode($this->random->getFromArray($this->dictionary, $length));
+            $str = implode($this->random->getFromArray1($this->dictionary, $length));
             $data[] = $str;
         }
         return new Corpus($data);

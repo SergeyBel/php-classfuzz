@@ -3,12 +3,12 @@
 namespace PhpClassFuzz\Mutator\Facade;
 
 use PhpClassFuzz\DependencyInjection\DependencyInjection;
-use PhpClassFuzz\Mutator\MutatorInterface;
+use PhpClassFuzz\Mutator\StringMutatorInterface;
 
 class StringMutatorFacade
 {
     /**
-     * @return MutatorInterface[]
+     * @return StringMutatorInterface[]
      */
     public static function getAllMutators(): array
     {

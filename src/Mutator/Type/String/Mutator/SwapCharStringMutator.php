@@ -1,11 +1,11 @@
 <?php
 
-namespace PhpClassFuzz\Mutator\Type\String;
+namespace PhpClassFuzz\Mutator\Type\String\Mutator;
 
-use PhpClassFuzz\Mutator\MutatorInterface;
+use PhpClassFuzz\Mutator\Type\String\StringMutatorInterface;
 use PhpClassFuzz\Random\Random;
 
-class SwapCharMutator implements MutatorInterface
+class SwapCharStringMutator implements StringMutatorInterface
 {
     private Random $random;
 
@@ -16,16 +16,16 @@ class SwapCharMutator implements MutatorInterface
     }
 
     /**
-     * @param string $input
+     * @param string $str
      */
-    public function mutate($input): string
+    public function mutate($str): string
     {
-        if (strlen($input) == 0) {
-            return $input;
+        if (strlen($str) == 0) {
+            return $str;
         }
-        $first = $this->random->getInt(0, strlen($input) - 1);
-        $second = $this->random->getInt(0, strlen($input) - 1);
-        return $this->swap($input, $first, $second);
+        $first = $this->random->getInt(0, strlen($str) - 1);
+        $second = $this->random->getInt(0, strlen($str) - 1);
+        return $this->swap($str, $first, $second);
     }
 
     private function swap(string $input, int $first, int $second): string

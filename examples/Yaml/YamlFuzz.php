@@ -2,6 +2,7 @@
 
 
 use PhpClassFuzz\Argument\Argument;
+use PhpClassFuzz\Argument\Input;
 use PhpClassFuzz\Corpus\Generator\DictionaryCorpus;
 use PhpClassFuzz\Fuzz\BaseFuzz;
 use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
@@ -10,17 +11,12 @@ use Symfony\Component\Yaml\Yaml;
 
 class YamlFuzz extends BaseFuzz
 {
-    public function getArgument(): Argument
+    public function getInputs(): array
     {
-        $argument = new Argument(
-            (new DictionaryCorpus(
-                ['key','value','1234','567',':',"\n",',',' ','- ',': >',': |', '<<', '!<foo>','!h!foo', '*',"'", '&','#', '[',']','-', '\\',],
-                50
-            ))->generate(2000),
-            StringMutatorFacade::getAllMutators(),
-        );
+       return [
+           new Input([new Argument('1234')]),
+       ];
 
-        return $argument;
     }
 
     public function ignoreThrowable(\Throwable $throwable): bool
@@ -40,6 +36,7 @@ class YamlFuzz extends BaseFuzz
 
     public function getCoveragePath(): ?string
     {
+        return null;
         return __DIR__. '/../../vendor/symfony/yaml';
     }
 
@@ -49,9 +46,9 @@ class YamlFuzz extends BaseFuzz
     }
 
 
-    public function fuzz(string $text)
+    public function fuzz(Input $input)
     {
-        $value = Yaml::parse($text);
+        $value = Yaml::parse($input->arguments[0]->value);
         return $value;
     }
 }

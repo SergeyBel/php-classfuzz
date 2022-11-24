@@ -8,7 +8,7 @@ use Throwable;
 
 class BaseFuzz implements FuzzInterface
 {
-    public function getArgument(): Argument
+    public function getInputs(): array
     {
         throw new ClassFuzzException('getArgument must be implemented');
     }

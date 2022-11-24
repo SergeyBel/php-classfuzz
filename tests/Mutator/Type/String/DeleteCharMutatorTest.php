@@ -1,6 +1,6 @@
 <?php
 
-use PhpClassFuzz\Mutator\Type\String\DeleteCharMutator;
+use PhpClassFuzz\Mutator\Type\String\DeleteCharStringMutator;
 use PhpClassFuzz\Random\Random;
 use PHPUnit\Framework\TestCase;
 
@@ -43,8 +43,8 @@ class DeleteCharMutatorTest extends TestCase
 
 
 
-    private function getMutator($randomMock): DeleteCharMutator
+    private function getMutator($randomMock): DeleteCharStringMutator
     {
-        return (new DeleteCharMutator())->setRandom($randomMock);
+        return (new DeleteCharStringMutator())->setRandom($randomMock);
     }
 }

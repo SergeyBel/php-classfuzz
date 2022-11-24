@@ -7,11 +7,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     apt-get update && apt-get install -qqy software-properties-common && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update && apt-get install -qqy \
-	  php8.0-cli \
-	  php8.0-fpm \
-	  php8.0-mbstring \
-      php8.0-dom \
-      php8.0-xdebug
+	  php8.1-cli \
+	  php8.1-fpm \
+	  php8.1-mbstring \
+      php8.1-dom \
+      php8.1-xdebug
 
 ADD $PWD/php/ /etc/php
 

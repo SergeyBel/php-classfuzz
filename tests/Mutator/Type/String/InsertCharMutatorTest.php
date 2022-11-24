@@ -1,6 +1,6 @@
 <?php
 
-use PhpClassFuzz\Mutator\Type\String\InsertCharMutator;
+use PhpClassFuzz\Mutator\Type\String\InsertCharStringMutator;
 use PhpClassFuzz\Random\Random;
 use PHPUnit\Framework\TestCase;
 
@@ -53,8 +53,8 @@ class InsertCharMutatorTest extends TestCase
 
 
 
-    private function getMutator($randomMock): InsertCharMutator
+    private function getMutator($randomMock): InsertCharStringMutator
     {
-        return (new InsertCharMutator())->setRandom($randomMock);
+        return (new InsertCharStringMutator())->setRandom($randomMock);
     }
 }

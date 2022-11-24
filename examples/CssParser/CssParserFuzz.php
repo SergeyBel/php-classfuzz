@@ -8,7 +8,7 @@ use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
 class CssParserFuzz extends BaseFuzz
 {
-    public function getArgument(): Argument
+    public function getInputs(): Argument
     {
         $argument = new Argument(
             (new DictionaryCorpus(

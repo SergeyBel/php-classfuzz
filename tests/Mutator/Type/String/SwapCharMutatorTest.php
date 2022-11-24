@@ -1,6 +1,6 @@
 <?php
 
-use PhpClassFuzz\Mutator\Type\String\SwapCharMutator;
+use PhpClassFuzz\Mutator\Type\String\SwapCharStringMutator;
 use PhpClassFuzz\Random\Random;
 use PHPUnit\Framework\TestCase;
 
@@ -44,8 +44,8 @@ class SwapCharMutatorTest extends TestCase
 
 
 
-    private function getMutator($randomMock): SwapCharMutator
+    private function getMutator($randomMock): SwapCharStringMutator
     {
-        return (new SwapCharMutator())->setRandom($randomMock);
+        return (new SwapCharStringMutator())->setRandom($randomMock);
     }
 }

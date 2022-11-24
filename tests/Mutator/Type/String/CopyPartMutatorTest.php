@@ -1,6 +1,6 @@
 <?php
 
-use PhpClassFuzz\Mutator\Type\String\CopyPartMutator;
+use PhpClassFuzz\Mutator\Type\String\CopyPartStringMutator;
 use PhpClassFuzz\Random\Random;
 use PHPUnit\Framework\TestCase;
 
@@ -45,8 +45,8 @@ class CopyPartMutatorTest extends TestCase
 
 
 
-    private function getMutator($randomMock): CopyPartMutator
+    private function getMutator($randomMock): CopyPartStringMutator
     {
-        return (new CopyPartMutator())->setRandom($randomMock);
+        return (new CopyPartStringMutator())->setRandom($randomMock);
     }
 }

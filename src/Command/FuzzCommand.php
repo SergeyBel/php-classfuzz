@@ -31,7 +31,7 @@ class FuzzCommand extends Command
         $config = (new RunnerConfiguration())
             ->setDirectory($input->getOption('dir'))
             ->setDebug($input->getOption('debug'));
-        $this->runner->runAllFuzz($config);
+        $this->runner->runFilesFuzzing($config);
         return Command::SUCCESS;
     }
 }

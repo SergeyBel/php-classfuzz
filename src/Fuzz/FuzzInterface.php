@@ -3,11 +3,15 @@
 namespace PhpClassFuzz\Fuzz;
 
 use PhpClassFuzz\Argument\Argument;
+use PhpClassFuzz\Argument\Input;
 use Throwable;
 
 interface FuzzInterface
 {
-    public function getArgument(): Argument;
+    /**
+     * @return Input[]
+     */
+    public function getInputs(): array;
 
     public function ignoreThrowable(Throwable $throwable): bool;
 

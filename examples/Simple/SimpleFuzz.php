@@ -8,7 +8,7 @@ use PhpClassFuzz\Mutator\Facade\StringMutatorFacade;
 
 class SimpleFuzz extends BaseFuzz
 {
-    public function getArgument(): Argument
+    public function getInputs(): Argument
     {
         $argument = new Argument(
             (new CharStringCorpus())->generate(100),

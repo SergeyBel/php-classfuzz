@@ -22,7 +22,7 @@ class Runner
         private Printer $printer
     ) {
     }
-    public function runAllFuzz(RunnerConfiguration $configuration): void
+    public function runFilesFuzzing(RunnerConfiguration $configuration): void
     {
         $files = $this->fuzzFileFinder->findFuzzFiles($configuration->getDirectory());
         $fuzzClasses = $this->fuzzClassFinder->findFuzzClasses($files);
