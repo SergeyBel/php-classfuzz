@@ -22,7 +22,7 @@ jobs:
 
       - name: Static analysis
         run: |
-          ./vendor/bin/phpstan analyze src --c phpstan.neon
+          ./vendor/bin/phpstan analyze src -c phpstan.neon
 
       - name: Tests
         run: |
