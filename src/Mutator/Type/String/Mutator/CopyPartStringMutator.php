@@ -7,19 +7,14 @@ use PhpClassFuzz\Random\Random;
 
 class CopyPartStringMutator implements StringMutatorInterface
 {
-    private Random $random;
-
     public function __construct(
-
+        private Random $random
     ) {
-        $this->random = new Random();
     }
 
 
-    /**
-     * @param string $str
-     */
-    public function mutate($str): string
+
+    public function mutate(string $str): string
     {
         if (strlen($str) == 0) {
             return $str;
@@ -29,12 +24,5 @@ class CopyPartStringMutator implements StringMutatorInterface
         $length = $partEnd - $partStart + 1;
         $part = substr($str, $partStart, $length);
         return substr_replace($str, $part.$part, $partStart, $length);
-    }
-
-
-    public function setRandom(Random $random): self
-    {
-        $this->random = $random;
-        return $this;
     }
 }

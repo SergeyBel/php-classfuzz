@@ -7,18 +7,13 @@ use PhpClassFuzz\Random\Random;
 
 class SwapCharStringMutator implements StringMutatorInterface
 {
-    private Random $random;
-
     public function __construct(
-
+        private Random $random
     ) {
-        $this->random = new Random();
     }
 
-    /**
-     * @param string $str
-     */
-    public function mutate($str): string
+
+    public function mutate(string $str): string
     {
         if (strlen($str) == 0) {
             return $str;
@@ -34,12 +29,5 @@ class SwapCharStringMutator implements StringMutatorInterface
         $input[$first] = $input[$second];
         $input[$second] = $tmp;
         return $input;
-    }
-
-
-    public function setRandom(Random $random): self
-    {
-        $this->random = $random;
-        return $this;
     }
 }

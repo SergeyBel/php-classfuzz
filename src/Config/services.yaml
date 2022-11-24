@@ -19,6 +19,11 @@ services:
     resource: '../Mutator/Type/String/Mutator/*'
     tags: [ 'fuzz.mutator.string' ]
 
+  PhpClassFuzz\Mutator\Type\String\StringMutator:
+    arguments:
+      $mutators: !tagged fuzz.mutator.string
+
+
   Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
 
 

@@ -14,6 +14,9 @@ class Random
         return $this->getInt(0, 1) == 1;
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function getFromArray(array $data): mixed
     {
         return $data[array_rand($data)];
@@ -24,19 +27,5 @@ class Random
         $characters = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
         $position = $this->getInt(0, strlen($characters) - 1);
         return $characters[$position];
-    }
-
-    /**
-     * @param mixed[] $data
-     * @return mixed[]
-     */
-    public function getFromArray1(array $data, int $length): array
-    {
-        $randomValues = [];
-        for ($i = 0; $i < $length; $i++) {
-            $randomValues[] = $data[array_rand($data)];
-        }
-
-        return $randomValues;
     }
 }

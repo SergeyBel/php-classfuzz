@@ -114,7 +114,7 @@ class Fuzzer
         }
     }
 
-    private function debugPrintInput(Input $input)
+    private function debugPrintInput(Input $input): void
     {
         $data = [];
         foreach ($input->arguments as $argument) {
