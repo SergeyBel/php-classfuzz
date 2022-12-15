@@ -17,7 +17,7 @@ class StringMutator
     {
         $mutators = $this->mutators;
         /** @var StringMutatorInterface $mutator */
-        $mutator = $this->random->getFromArray(iterator_to_array($mutators));
+        $mutator = $this->random->getValueFromArray(iterator_to_array($mutators));
         return $mutator->mutate($str);
     }
 }

@@ -17,13 +17,25 @@ services:
     resource: '../Command/*'
     tags: [ 'console.command' ]
 
+
+
   PhpClassFuzz\Mutator\Type\String\Mutator\:
     resource: '../Mutator/Type/String/Mutator/*'
     tags: [ 'fuzz.mutator.string' ]
 
+
   PhpClassFuzz\Mutator\Type\String\StringMutator:
     arguments:
       $mutators: !tagged fuzz.mutator.string
+
+
+  PhpClassFuzz\Mutator\Type\Array\Mutator\:
+    resource: '../Mutator/Type/Array/Mutator/*'
+    tags: [ 'fuzz.mutator.array' ]
+
+  PhpClassFuzz\Mutator\Type\Array\ArrayMutator:
+    arguments:
+      $mutators: !tagged fuzz.mutator.array
 
 
   Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
