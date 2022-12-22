@@ -7,7 +7,7 @@ use PhpClassFuzz\Random\Random;
 
 class InputMutator
 {
-    public const MAX_MUTANTS = 100;
+    public const MAX_MUTANTS = 25;
     public function __construct(
         private Random $random,
         private ArgumentMutator $argumentMutator

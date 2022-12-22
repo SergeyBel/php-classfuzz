@@ -1,11 +1,11 @@
 <?php
 
-namespace PhpClassFuzz\Argument;
+namespace PhpClassFuzz\Fuzzer\FuzzingInput;
 
-class InputQueue
+class FuzzingInputQueue
 {
     /**
-     * @var mixed[]
+     * @var FuzzingInput[]
      */
     private array $data;
 
@@ -14,12 +14,17 @@ class InputQueue
         $this->data = [];
     }
 
-    public function push(mixed $element): void
+    public function count(): int
+    {
+        return count($this->data);
+    }
+
+    public function push(FuzzingInput $element): void
     {
         array_push($this->data, $element);
     }
 
-    public function pop(): mixed
+    public function pop(): FuzzingInput
     {
         return array_pop($this->data);
     }

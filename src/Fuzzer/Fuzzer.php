@@ -2,13 +2,14 @@
 
 namespace PhpClassFuzz\Fuzzer;
 
-use PhpClassFuzz\Argument\InputQueue;
 use PhpClassFuzz\Coverage\Coverage;
 use PhpClassFuzz\Coverage\LineCoverageAnalyzer;
 use PhpClassFuzz\Coverage\LineCoverageData;
 use PhpClassFuzz\Debug\Debug;
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
+use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInput;
+use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInputQueue;
 use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingFinishedResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
@@ -37,16 +38,23 @@ class Fuzzer
         $maxCount = $fuzzClass->getMaxCount();
         $needCoverage = !empty($fuzzClass->getCoveragePath());
         $runCount = 0;
-        $inputQueue = new InputQueue();
+        $inputQueue = new FuzzingInputQueue();
         $currentCoverage = new LineCoverageData();
 
         foreach ($fuzzClass->getInputs() as $input) {
-            $inputQueue->push($input);
+            $inputQueue->push(
+                new FuzzingInput(
+                    $input,
+                    new LineCoverageData()
+                )
+            );
         }
 
         while (!$this->isFinished($runCount, $maxCount) && !$inputQueue->isEmpty()) {
             $newInput = $inputQueue->pop();
-            $mutatedInputs = $this->inputMutator->mutateInput($newInput);
+            $newInputParentCoverage = $newInput->coverage;
+            $mutatedInputs = $this->inputMutator->mutateInput($newInput->input);
+
             foreach ($mutatedInputs as $input) {
                 if ($needCoverage) {
                     $this->coverage->start($fuzzClass->getCoveragePath());
@@ -62,7 +70,7 @@ class Fuzzer
 
                 $runCount++;
                 if ($needCoverage) {
-                    $this->analyzeCoverage($input, $inputQueue, $currentCoverage);
+                    $this->analyzeCoverage($input, $inputQueue, $currentCoverage, $newInputParentCoverage);
                     if ($isDebug) {
                         $this->debug->debugPrint('total coverage lines '. $currentCoverage->totalLines());
                     }
@@ -103,13 +111,20 @@ class Fuzzer
         return null;
     }
 
-    private function analyzeCoverage(mixed $input, InputQueue $queue, LineCoverageData $currentCoverage): void
-    {
+    private function analyzeCoverage(
+        Input $input,
+        FuzzingInputQueue $queue,
+        LineCoverageData $currentCoverage,
+        LineCoverageData $inputCoverage
+    ): void {
         $this->coverage->stop();
         $actualCoverage = $this->coverage->getCoverageData();
 
-        if ($this->coverageAnalyzer->hasNewLines($currentCoverage, $actualCoverage)) {
-            $queue->push($input);
+        if ($this->coverageAnalyzer->hasNewLines($inputCoverage, $actualCoverage)) {
+            $queue->push(new FuzzingInput(
+                $input,
+                $actualCoverage
+            ));
             $currentCoverage->merge($actualCoverage);
         }
     }

@@ -10,7 +10,7 @@ services:
   PhpClassFuzz\:
     resource: '../*'
     exclude:
-      - '../{Config,Application,Argument,Fuzzer/Result}/*'
+      - '../{Config,Application,Argument,Fuzzer/Result,Fuzzer/FuzzingInput}/*'
       - '../*/*Exception.php'
 
   PhpClassFuzz\Command\:
