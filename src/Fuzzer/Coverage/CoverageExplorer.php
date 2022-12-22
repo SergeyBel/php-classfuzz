@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpClassFuzz\Fuzzer\Coverage;
 
 use PhpClassFuzz\Coverage\Coverage;
@@ -34,6 +35,4 @@ class CoverageExplorer implements CoverageExplorerInterface
     {
         $this->coverage->saveHtmlReport();
     }
-
-
 }

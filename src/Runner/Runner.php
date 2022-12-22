@@ -11,6 +11,7 @@ use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingFinishedResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingResultInterface;
+use PhpClassFuzz\Runner\Configuration\RunnerConfiguration;
 
 class Runner
 {
@@ -23,7 +24,7 @@ class Runner
     }
     public function runFilesFuzzing(RunnerConfiguration $configuration): void
     {
-        $files = $this->fuzzFileFinder->findFuzzFiles($configuration->getDirectory());
+        $files = $this->fuzzFileFinder->findFuzzFiles($configuration->directory);
         $fuzzClasses = $this->fuzzClassFinder->findFuzzClasses($files);
 
 

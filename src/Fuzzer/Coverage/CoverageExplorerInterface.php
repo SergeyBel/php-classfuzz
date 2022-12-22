@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpClassFuzz\Fuzzer\Coverage;
 
 use PhpClassFuzz\Coverage\LineCoverageData;

@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpClassFuzz\Fuzzer\Coverage;
 
 class CoverageAnalyzerFactory
@@ -6,9 +7,7 @@ class CoverageAnalyzerFactory
     public function __construct(
         private CoverageExplorer $coverageAnalyzer,
         private CoverageEmptyExplorer $coverageEmptyAnalyzer
-    )
-    {
-
+    ) {
     }
 
     public function getCoverageAnalyzer(bool $needCoverage): CoverageExplorerInterface
@@ -18,7 +17,5 @@ class CoverageAnalyzerFactory
         } else {
             return $this->coverageEmptyAnalyzer;
         }
-
     }
-
 }

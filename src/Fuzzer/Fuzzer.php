@@ -2,10 +2,7 @@
 
 namespace PhpClassFuzz\Fuzzer;
 
-use PhpClassFuzz\Coverage\Coverage;
-use PhpClassFuzz\Coverage\LineCoverageAnalyzer;
 use PhpClassFuzz\Coverage\LineCoverageData;
-use PhpClassFuzz\Debug\Debug;
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Fuzzer\Coverage\CoverageAnalyzerFactory;
@@ -19,7 +16,7 @@ use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingResultInterface;
 use PhpClassFuzz\Mutator\InputMutator;
 use PhpClassFuzz\PostCondition\PostConditionManager;
-use PhpClassFuzz\Runner\RunnerConfiguration;
+use PhpClassFuzz\Runner\Configuration\RunnerConfiguration;
 use PhpClassFuzz\ThrowableCatcher\ExceptionCatcherManager;
 use PhpClassFuzz\Argument\Input;
 use Throwable;
@@ -39,8 +36,7 @@ class Fuzzer
     public function runFuzzing(FuzzInterface $fuzzClass, RunnerConfiguration $configuration): FuzzingResultInterface
     {
         $coverage = $this->coverageFactory->getCoverageAnalyzer(!empty($fuzzClass->getCoveragePath()));
-        $debugger = $this->debuggerFactory->getDebugger($configuration->isDebug());
-        $maxCount = $fuzzClass->getMaxCount();
+        $debugger = $this->debuggerFactory->getDebugger($configuration->isDebug);
         $runCount = 0;
         $inputQueue = new FuzzingInputQueue();
         $currentCoverage = new LineCoverageData();
@@ -54,11 +50,15 @@ class Fuzzer
             );
         }
 
-        while (!$this->isFinished($runCount, $maxCount) && !$inputQueue->isEmpty()) {
+        while (!$inputQueue->isEmpty()) {
             $newInput = $inputQueue->pop();
             $mutatedInputs = $this->inputMutator->mutateInput($newInput->input);
 
             foreach ($mutatedInputs as $input) {
+                if ($this->isFinished($runCount, $fuzzClass->getMaxCount())) {
+                    break 2;
+                }
+
                 $coverage->start($fuzzClass->getCoveragePath() ?? '');
                 $this->debugPrintInput($debugger, $input);
                 if ($result = $this->runOneInput($fuzzClass, $input)) {
@@ -66,16 +66,17 @@ class Fuzzer
                 }
                 $runCount++;
 
+
                 $actualCoverage = $coverage->explore($newInput->coverage);
                 $inputQueue->push(
-                        new FuzzingInput(
+                    new FuzzingInput(
                             $input,
                             $actualCoverage
                         )
                 );
                 $currentCoverage->merge($actualCoverage);
 
-                $debugger->debug('total coverage lines '. $currentCoverage->totalLines(), $configuration->isDebug());
+                $debugger->debug('total coverage lines '. $currentCoverage->totalLines());
             }
         }
 
@@ -91,7 +92,7 @@ class Fuzzer
         if ($maxCount === null) {
             return false;
         }
-        return $runCount > $maxCount;
+        return $runCount >= $maxCount;
     }
 
     private function runOneInput(FuzzInterface $fuzzClass, Input $input): ?FuzzingResultInterface

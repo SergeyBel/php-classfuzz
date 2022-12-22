@@ -2,8 +2,8 @@
 
 namespace PhpClassFuzz\Command;
 
+use PhpClassFuzz\Runner\Configuration\RunnerConfiguration;
 use PhpClassFuzz\Runner\Runner;
-use PhpClassFuzz\Runner\RunnerConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,13 +24,15 @@ class FuzzCommand extends Command
     {
         $this->addOption('dir', null, InputOption::VALUE_REQUIRED);
         $this->addOption('debug', null, InputOption::VALUE_NONE);
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $config = (new RunnerConfiguration())
-            ->setDirectory($input->getOption('dir'))
-            ->setDebug($input->getOption('debug'));
+        $config = new RunnerConfiguration(
+            $input->getOption('dir'),
+            $input->getOption('debug'),
+        );
         $this->runner->runFilesFuzzing($config);
         return Command::SUCCESS;
     }

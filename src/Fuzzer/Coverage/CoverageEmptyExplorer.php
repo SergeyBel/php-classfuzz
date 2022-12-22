@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpClassFuzz\Fuzzer\Coverage;
 
 use PhpClassFuzz\Coverage\LineCoverageData;
@@ -19,6 +20,4 @@ class CoverageEmptyExplorer implements CoverageExplorerInterface
     {
         return;
     }
-
-
 }

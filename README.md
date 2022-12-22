@@ -67,7 +67,7 @@ class YamlFuzz extends BaseFuzz
 }
 ```
 
-then run command `vendor/bin/php-classfuzz fuzzing --dir=<dirWithFuzzFiles>`
+then run command `vendor/bin/php-classfuzz fuzzing --dir=<dirWithFuzzFiles> --debug`
 
 # Main concepts
 

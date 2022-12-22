@@ -8,6 +8,4 @@ class DebuggerEmpty implements DebuggerInterface
     {
         return;
     }
-
-
 }
