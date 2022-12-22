@@ -7,7 +7,6 @@ use PhpClassFuzz\Coverage\LineCoverageData;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Fuzzer\Coverage\CoverageAnalyzerFactory;
 use PhpClassFuzz\Fuzzer\Debugger\DebuggerFactory;
-use PhpClassFuzz\Fuzzer\Debugger\DebuggerInterface;
 use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInput;
 use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInputQueue;
 use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
@@ -60,7 +59,7 @@ class Fuzzer
                 }
 
                 $coverage->start($fuzzClass->getCoveragePath() ?? '');
-                $this->debugPrintInput($debugger, $input);
+                $debugger->debug($input->getArgumentsValues());
                 if ($result = $this->runOneInput($fuzzClass, $input)) {
                     return $result;
                 }
@@ -70,9 +69,9 @@ class Fuzzer
                 $actualCoverage = $coverage->explore($newInput->coverage);
                 $inputQueue->push(
                     new FuzzingInput(
-                            $input,
-                            $actualCoverage
-                        )
+                        $input,
+                        $actualCoverage
+                    )
                 );
                 $currentCoverage->merge($actualCoverage);
 
@@ -99,7 +98,7 @@ class Fuzzer
     {
         try {
             $callResult = $this->fuzzCaller->runFuzzCase($fuzzClass, $input);
-            if (!$this->postConditionManager->checkPostCondition($fuzzClass, $callResult)) {
+            if (!$this->postConditionManager->checkPostCondition($fuzzClass, $input, $callResult)) {
                 return new FuzzingPostConditionViolationResult($fuzzClass, $input, $callResult);
             }
         } catch (Throwable $e) {
@@ -109,15 +108,5 @@ class Fuzzer
         }
 
         return null;
-    }
-
-
-    private function debugPrintInput(DebuggerInterface $debugger, Input $input): void
-    {
-        $data = [];
-        foreach ($input->arguments as $argument) {
-            $data[] = $argument->value;
-        }
-        $debugger->debug($data);
     }
 }

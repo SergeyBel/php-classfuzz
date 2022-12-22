@@ -16,7 +16,7 @@ interface FuzzInterface
 
     public function getMaxCount(): ?int;
 
-    public function metPostCondition(mixed $callResult): bool;
+    public function metPostCondition(Input $input, mixed $callResult): bool;
 
     public function getCoveragePath(): ?string;
 }

@@ -2,6 +2,7 @@
 
 namespace PhpClassFuzz\Fuzzer\Result;
 
+use PhpClassFuzz\Argument\Input;
 use PhpClassFuzz\Fuzz\FuzzInterface;
 
 class FuzzingPostConditionViolationResult implements FuzzingResultInterface
@@ -11,7 +12,7 @@ class FuzzingPostConditionViolationResult implements FuzzingResultInterface
     private mixed $input;
 
 
-    public function __construct(FuzzInterface $fuzzClass, mixed $input, mixed $callResult)
+    public function __construct(FuzzInterface $fuzzClass, Input $input, mixed $callResult)
     {
         $this->fuzzClassName = get_class($fuzzClass);
         $this->input = $input;
@@ -28,7 +29,7 @@ class FuzzingPostConditionViolationResult implements FuzzingResultInterface
         return $this->callResult;
     }
 
-    public function getInput(): mixed
+    public function getInput(): Input
     {
         return $this->input;
     }

@@ -26,7 +26,7 @@ class YamlFuzz extends BaseFuzz
 
     public function getMaxCount(): ?int
     {
-        return 100;
+        return 250;
     }
 
     public function getCoveragePath(): ?string
@@ -34,9 +34,9 @@ class YamlFuzz extends BaseFuzz
         return __DIR__. '/../../vendor/symfony/yaml';
     }
 
-    public function metPostCondition(mixed $callResult): bool
+    public function metPostCondition(Input $input, mixed $callResult): bool
     {
-        return true;
+        return $callResult == $input->arguments[0]->value;
     }
 
 

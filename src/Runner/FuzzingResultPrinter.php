@@ -26,7 +26,7 @@ class FuzzingResultPrinter
     {
         $message = 'Post condition violated when '.$result->getFuzzClassName().' fuzzed';
         $data = [
-            'arguments' => $result->getInput(),
+            'arguments' => $result->getInput()->getArgumentsValues(),
             'call_result' => $result->getCallResult(),
             'trace' => $this->getTrace(),
         ];

@@ -2,6 +2,7 @@
 
 namespace PhpClassFuzz\Fuzz;
 
+use PhpClassFuzz\Argument\Input;
 use Throwable;
 
 class BaseFuzz implements FuzzInterface
@@ -22,7 +23,7 @@ class BaseFuzz implements FuzzInterface
     }
 
 
-    public function metPostCondition(mixed $callResult): bool
+    public function metPostCondition(Input $input, mixed $callResult): bool
     {
         return true;
     }
