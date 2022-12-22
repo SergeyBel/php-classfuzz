@@ -8,6 +8,7 @@ use PhpClassFuzz\Coverage\LineCoverageData;
 use PhpClassFuzz\Debug\Debug;
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
+use PhpClassFuzz\Fuzzer\Coverage\CoverageAnalyzerFactory;
 use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInput;
 use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInputQueue;
 use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
@@ -16,6 +17,7 @@ use PhpClassFuzz\Fuzzer\Result\FuzzingPostConditionViolationResult;
 use PhpClassFuzz\Fuzzer\Result\FuzzingResultInterface;
 use PhpClassFuzz\Mutator\InputMutator;
 use PhpClassFuzz\PostCondition\PostConditionManager;
+use PhpClassFuzz\Runner\RunnerConfiguration;
 use PhpClassFuzz\ThrowableCatcher\ExceptionCatcherManager;
 use PhpClassFuzz\Argument\Input;
 use Throwable;
@@ -27,14 +29,18 @@ class Fuzzer
         private ExceptionCatcherManager $exceptionCatcherManager,
         private PostConditionManager $postConditionManager,
         private Debug $debug,
-        private Coverage $coverage,
         private LineCoverageAnalyzer $coverageAnalyzer,
-        private InputMutator $inputMutator
+        private InputMutator $inputMutator,
+        private CoverageAnalyzerFactory $coverageFactory
     ) {
     }
 
-    public function runFuzzing(FuzzInterface $fuzzClass, bool $isDebug): FuzzingResultInterface
+    public function runFuzzing(FuzzInterface $fuzzClass, RunnerConfiguration $configuration): FuzzingResultInterface
     {
+        $coverage = $this->coverageFactory->getCoverageAnalyzer(!empty($fuzzClass->getCoveragePath()));
+
+
+        $isDebug = $configuration->isDebug();
         $maxCount = $fuzzClass->getMaxCount();
         $needCoverage = !empty($fuzzClass->getCoveragePath());
         $runCount = 0;
@@ -56,34 +62,30 @@ class Fuzzer
             $mutatedInputs = $this->inputMutator->mutateInput($newInput->input);
 
             foreach ($mutatedInputs as $input) {
-                if ($needCoverage) {
-                    $this->coverage->start($fuzzClass->getCoveragePath());
-                }
-
-                if ($isDebug) {
-                    $this->debugPrintInput($input);
-                }
-
+                $coverage->start($fuzzClass->getCoveragePath() ?? '');
+                $this->debugPrintInput($input, $configuration);
                 if ($result = $this->runOneInput($fuzzClass, $input)) {
                     return $result;
                 }
-
                 $runCount++;
-                if ($needCoverage) {
-                    $this->analyzeCoverage($input, $inputQueue, $currentCoverage, $newInputParentCoverage);
-                    if ($isDebug) {
-                        $this->debug->debugPrint('total coverage lines '. $currentCoverage->totalLines());
-                    }
-                }
+
+                $actualCoverage = $coverage->explore($newInputParentCoverage);
+                $inputQueue->push(
+                        new FuzzingInput(
+                            $input,
+                            $actualCoverage
+                        )
+                );
+                $currentCoverage->merge($actualCoverage);
+
+                $this->debug->debugPrint('total coverage lines '. $currentCoverage->totalLines(), $configuration->isDebug());
             }
         }
 
-        if ($needCoverage) {
-            if ($isDebug) {
-                $this->debug->debugPrint('generate coverage report');
-                $this->coverage->saveHtmlReport();
-            }
-        }
+
+        $this->debug->debugPrint('generate coverage report', $configuration->isDebug());
+        $coverage->saveReport();
+
         return new FuzzingFinishedResult($runCount);
     }
 
@@ -129,12 +131,12 @@ class Fuzzer
         }
     }
 
-    private function debugPrintInput(Input $input): void
+    private function debugPrintInput(Input $input, RunnerConfiguration $configuration): void
     {
         $data = [];
         foreach ($input->arguments as $argument) {
             $data[] = $argument->value;
         }
-        $this->debug->debugPrint($data);
+        $this->debug->debugPrint($data, $configuration->isDebug());
     }
 }
