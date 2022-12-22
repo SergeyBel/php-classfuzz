@@ -26,7 +26,7 @@ class YamlFuzz extends BaseFuzz
 
     public function getMaxCount(): ?int
     {
-        return null;
+        return 100;
     }
 
     public function getCoveragePath(): ?string

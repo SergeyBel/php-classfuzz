@@ -9,6 +9,8 @@ use PhpClassFuzz\Debug\Debug;
 
 use PhpClassFuzz\Fuzz\FuzzInterface;
 use PhpClassFuzz\Fuzzer\Coverage\CoverageAnalyzerFactory;
+use PhpClassFuzz\Fuzzer\Debugger\DebuggerFactory;
+use PhpClassFuzz\Fuzzer\Debugger\DebuggerInterface;
 use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInput;
 use PhpClassFuzz\Fuzzer\FuzzingInput\FuzzingInputQueue;
 use PhpClassFuzz\Fuzzer\Result\FuzzingExceptionResult;
@@ -28,21 +30,17 @@ class Fuzzer
         private FuzzCaller $fuzzCaller,
         private ExceptionCatcherManager $exceptionCatcherManager,
         private PostConditionManager $postConditionManager,
-        private Debug $debug,
-        private LineCoverageAnalyzer $coverageAnalyzer,
         private InputMutator $inputMutator,
-        private CoverageAnalyzerFactory $coverageFactory
+        private CoverageAnalyzerFactory $coverageFactory,
+        private DebuggerFactory $debuggerFactory
     ) {
     }
 
     public function runFuzzing(FuzzInterface $fuzzClass, RunnerConfiguration $configuration): FuzzingResultInterface
     {
         $coverage = $this->coverageFactory->getCoverageAnalyzer(!empty($fuzzClass->getCoveragePath()));
-
-
-        $isDebug = $configuration->isDebug();
+        $debugger = $this->debuggerFactory->getDebugger($configuration->isDebug());
         $maxCount = $fuzzClass->getMaxCount();
-        $needCoverage = !empty($fuzzClass->getCoveragePath());
         $runCount = 0;
         $inputQueue = new FuzzingInputQueue();
         $currentCoverage = new LineCoverageData();
@@ -58,18 +56,17 @@ class Fuzzer
 
         while (!$this->isFinished($runCount, $maxCount) && !$inputQueue->isEmpty()) {
             $newInput = $inputQueue->pop();
-            $newInputParentCoverage = $newInput->coverage;
             $mutatedInputs = $this->inputMutator->mutateInput($newInput->input);
 
             foreach ($mutatedInputs as $input) {
                 $coverage->start($fuzzClass->getCoveragePath() ?? '');
-                $this->debugPrintInput($input, $configuration);
+                $this->debugPrintInput($debugger, $input);
                 if ($result = $this->runOneInput($fuzzClass, $input)) {
                     return $result;
                 }
                 $runCount++;
 
-                $actualCoverage = $coverage->explore($newInputParentCoverage);
+                $actualCoverage = $coverage->explore($newInput->coverage);
                 $inputQueue->push(
                         new FuzzingInput(
                             $input,
@@ -78,12 +75,12 @@ class Fuzzer
                 );
                 $currentCoverage->merge($actualCoverage);
 
-                $this->debug->debugPrint('total coverage lines '. $currentCoverage->totalLines(), $configuration->isDebug());
+                $debugger->debug('total coverage lines '. $currentCoverage->totalLines(), $configuration->isDebug());
             }
         }
 
 
-        $this->debug->debugPrint('generate coverage report', $configuration->isDebug());
+        $debugger->debug('generate coverage report');
         $coverage->saveReport();
 
         return new FuzzingFinishedResult($runCount);
@@ -113,30 +110,13 @@ class Fuzzer
         return null;
     }
 
-    private function analyzeCoverage(
-        Input $input,
-        FuzzingInputQueue $queue,
-        LineCoverageData $currentCoverage,
-        LineCoverageData $inputCoverage
-    ): void {
-        $this->coverage->stop();
-        $actualCoverage = $this->coverage->getCoverageData();
 
-        if ($this->coverageAnalyzer->hasNewLines($inputCoverage, $actualCoverage)) {
-            $queue->push(new FuzzingInput(
-                $input,
-                $actualCoverage
-            ));
-            $currentCoverage->merge($actualCoverage);
-        }
-    }
-
-    private function debugPrintInput(Input $input, RunnerConfiguration $configuration): void
+    private function debugPrintInput(DebuggerInterface $debugger, Input $input): void
     {
         $data = [];
         foreach ($input->arguments as $argument) {
             $data[] = $argument->value;
         }
-        $this->debug->debugPrint($data, $configuration->isDebug());
+        $debugger->debug($data);
     }
 }
